@@ -3,6 +3,12 @@
     <td><?php echo $this->object->date; ?></td>
     <td><?php echo $this->object->time; ?> Uhr</td>
     <td>
+        <?php echo $this->escape($this->object->user->title); ?>
+        <?php echo $this->escape($this->object->user->firstname); ?>
+        <?php echo $this->escape($this->object->user->lastname); ?>
+    </td>
+    <td><?php echo $this->object->publish; ?></td>
+    <td>
         <ul>
             <li>
                 <a
