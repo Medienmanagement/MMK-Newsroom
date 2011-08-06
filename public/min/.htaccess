@@ -1,4 +1,5 @@
 <IfModule mod_rewrite.c>
-RewriteEngine on
-RewriteRule ^([a-z]=.*)  index.php?$1  [L,NE]
+RewriteEngine On
+RewriteBase /min/
+RewriteRule ^([a-z]=.*) index.php?$1 [L,NE]
 </IfModule>

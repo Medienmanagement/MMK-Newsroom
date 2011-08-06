@@ -1,9 +1,16 @@
 
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{HTTP_HOST} ^([^.]+)\.newsroom\.medienmanagement\.info$ [NC]
+RewriteRule ^(.*)$ http://newsroom.medienmanagement.info/$1 [R=301,L]
+
 RewriteRule ^thumb_(.*)_(.*)_(.*)x(.*)\.(jpg|jpeg|png|gif)$ thumb.php?id=$1&method=$2&width=$3&height=$4 [NC,L]
 
-RewriteEngine On
+RewriteRule ^index\.php(.*)$ $1 [R=301,L]
+
 RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^.*$ - [NC,L]
-RewriteRule ^.*$ index.php [NC,L]
+RewriteRule ^.*$ / [NC,L]
