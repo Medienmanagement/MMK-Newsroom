@@ -7,7 +7,7 @@
     >
         <h2><?php echo $this->escape($this->item->title); ?></h2>
         <p class="minor small">
-            <?php echo strftime('%e. %B %Y', $this->item->getUpdate('U')); ?> |
+            <?php echo strftime('%e. %B %Y', $this->item->getPublish('U')); ?> |
             <?php echo $this->escape($this->item->file->name); ?>
         </p>
     </a>

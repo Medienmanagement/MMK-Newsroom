@@ -41,6 +41,11 @@ class MediaResponse extends Newsroom\EntityAbstract
     protected $file;
 
     /**
+     * @Column(type="date", name="media_response_publish")
+     */
+    protected $publish;
+
+    /**
      * @ManyToMany(targetEntity="Tag", inversedBy="mediaResponses")
      * @JoinTable(
      *  name="media_response_tag",
@@ -110,6 +115,16 @@ class MediaResponse extends Newsroom\EntityAbstract
         $this->file = $file;
     }
 
+    public function getPublish($format = 'd.m.Y')
+    {
+        return $this->publish->format($format);
+    }
+
+    public function setPublish($date)
+    {
+        $this->publish = new \DateTime($date);
+    }
+
     public function getTags()
     {
         return $this->tags;
@@ -147,6 +162,7 @@ class MediaResponse extends Newsroom\EntityAbstract
             'title'     => $this->getTitle(),
             'image'     => $this->getImage(),
             'file'      => $this->getFile(),
+            'publish'   => $this->getPublish(),
             'tags'      => $this->getTags(),
             'create'    => $this->getCreate(),
             'update'    => $this->getUpdate()

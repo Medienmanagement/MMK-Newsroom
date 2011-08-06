@@ -75,6 +75,18 @@ class NewsroomEntityMediaResponseProxy extends \Newsroom\Entity\MediaResponse im
         return parent::setFile($file);
     }
 
+    public function getPublish($format = 'd.m.Y')
+    {
+        $this->_load();
+        return parent::getPublish($format);
+    }
+
+    public function setPublish($date)
+    {
+        $this->_load();
+        return parent::setPublish($date);
+    }
+
     public function getTags()
     {
         $this->_load();
@@ -138,7 +150,7 @@ class NewsroomEntityMediaResponseProxy extends \Newsroom\Entity\MediaResponse im
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'title', 'image', 'file', 'tags', 'create', 'update');
+        return array('__isInitialized__', 'id', 'title', 'image', 'file', 'publish', 'tags', 'create', 'update');
     }
 
     public function __clone()

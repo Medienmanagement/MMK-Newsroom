@@ -18,7 +18,7 @@ class AnnouncementRepository extends CrudRepository
     public function fetchEntities($limit = null, $offset = null)
     {
         $qb = $this->createQueryBuilder('e');
-        $qb->orderBy('e.update', 'desc');
+        $qb->orderBy('e.publish', 'desc');
 
         if (!empty ($limit))
         {

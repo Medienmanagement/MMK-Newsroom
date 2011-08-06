@@ -63,6 +63,18 @@ class NewsroomEntityMaterialProxy extends \Newsroom\Entity\Material implements \
         return parent::setFile($file);
     }
 
+    public function getPublish($format = 'd.m.Y')
+    {
+        $this->_load();
+        return parent::getPublish($format);
+    }
+
+    public function setPublish($date)
+    {
+        $this->_load();
+        return parent::setPublish($date);
+    }
+
     public function getTags()
     {
         $this->_load();
@@ -126,7 +138,7 @@ class NewsroomEntityMaterialProxy extends \Newsroom\Entity\Material implements \
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'title', 'file', 'tags', 'create', 'update');
+        return array('__isInitialized__', 'id', 'title', 'file', 'publish', 'tags', 'create', 'update');
     }
 
     public function __clone()
