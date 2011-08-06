@@ -5,7 +5,7 @@
     >
         <h2><?php echo $this->escape($this->item->headline); ?></h2>
         <p class="minor small">
-            <?php echo strftime('%e. %B %Y', $this->item->getUpdate('U')); ?> |
+            <?php echo strftime('%e. %B %Y', $this->item->getPublish('U')); ?> |
             <?php echo count($this->item->comments); ?>
             <?php echo count($this->item->comments) == 1 ? 'Kommentar' : 'Kommentare'; ?>
         </p>

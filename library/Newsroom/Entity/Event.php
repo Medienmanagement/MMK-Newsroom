@@ -60,6 +60,11 @@ class Event extends Newsroom\EntityAbstract
     protected $image;
 
     /**
+     * @Column(type="date", name="event_publish")
+     */
+    protected $publish;
+
+    /**
      * @ManyToMany(targetEntity="Tag", inversedBy="events")
      * @JoinTable(
      *  name="event_tag",
@@ -183,6 +188,16 @@ class Event extends Newsroom\EntityAbstract
         $this->image = $image;
     }
 
+    public function getPublish($format = 'd.m.Y')
+    {
+        return $this->publish->format($format);
+    }
+
+    public function setPublish($date)
+    {
+        $this->publish = new \DateTime($date);
+    }
+
     public function getTags()
     {
         return $this->tags;
@@ -239,6 +254,7 @@ class Event extends Newsroom\EntityAbstract
             'location'  => $this->getLocation(),
             'content'   => $this->getContent(),
             'image'     => $this->getImage(),
+            'publish'   => $this->getPublish(),
             'tags'      => $this->getTags(),
             'comments'  => $this->getComments(),
             'create'    => $this->getCreate(),

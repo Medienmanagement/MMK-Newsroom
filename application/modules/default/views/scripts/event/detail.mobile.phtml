@@ -1,8 +1,8 @@
 <article class="detail">
-	
+
 <h2><?php echo $this->escape($this->event->headline); ?></h2>
 <p class="minor small">
-    <?php echo strftime('%e. %B %Y', $this->event->getUpdate('U')); ?> |
+    <?php echo strftime('%e. %B %Y', $this->event->getPublish('U')); ?> |
     <?php echo $this->escape($this->event->user->title); ?>
     <?php echo $this->escape($this->event->user->firstname); ?>
     <?php echo $this->escape($this->event->user->lastname); ?>

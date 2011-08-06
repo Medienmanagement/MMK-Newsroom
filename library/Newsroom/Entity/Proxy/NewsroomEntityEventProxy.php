@@ -117,6 +117,18 @@ class NewsroomEntityEventProxy extends \Newsroom\Entity\Event implements \Doctri
         return parent::setImage($image);
     }
 
+    public function getPublish($format = 'd.m.Y')
+    {
+        $this->_load();
+        return parent::getPublish($format);
+    }
+
+    public function setPublish($date)
+    {
+        $this->_load();
+        return parent::setPublish($date);
+    }
+
     public function getTags()
     {
         $this->_load();
@@ -198,7 +210,7 @@ class NewsroomEntityEventProxy extends \Newsroom\Entity\Event implements \Doctri
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'headline', 'url', 'date', 'time', 'location', 'content', 'image', 'tags', 'comments', 'user', 'create', 'update');
+        return array('__isInitialized__', 'id', 'headline', 'url', 'date', 'time', 'location', 'content', 'image', 'publish', 'tags', 'comments', 'user', 'create', 'update');
     }
 
     public function __clone()

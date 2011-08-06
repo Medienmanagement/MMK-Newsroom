@@ -2,7 +2,7 @@
 
 <h2><?php echo $this->escape($this->news->headline); ?></h2>
 <p class="minor small">
-    <?php echo strftime('%e. %B %Y', $this->news->getUpdate('U')); ?> |
+    <?php echo strftime('%e. %B %Y', $this->news->getPublish('U')); ?> |
     <?php echo $this->escape($this->news->user->title); ?>
     <?php echo $this->escape($this->news->user->firstname); ?>
     <?php echo $this->escape($this->news->user->lastname); ?>

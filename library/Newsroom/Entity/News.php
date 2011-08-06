@@ -45,6 +45,11 @@ class News extends Newsroom\EntityAbstract
     protected $image;
 
     /**
+     * @Column(type="date", name="news_publish")
+     */
+    protected $publish;
+
+    /**
      * @ManyToMany(targetEntity="Tag", inversedBy="news")
      * @JoinTable(
      *  name="news_tag",
@@ -138,6 +143,16 @@ class News extends Newsroom\EntityAbstract
         $this->image = $image;
     }
 
+    public function getPublish($format = 'd.m.Y')
+    {
+        return $this->publish->format($format);
+    }
+
+    public function setPublish($date)
+    {
+        $this->publish = new \DateTime($date);
+    }
+
     public function getTags()
     {
         return $this->tags;
@@ -191,6 +206,7 @@ class News extends Newsroom\EntityAbstract
             'url'       => $this->getUrl(),
             'content'   => $this->getContent(),
             'image'     => $this->getImage(),
+            'publish'   => $this->getPublish(),
             'tags'      => $this->getTags(),
             'comments'  => $this->getComments(),
             'create'    => $this->getCreate(),
