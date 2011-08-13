@@ -31,11 +31,4 @@ class Youtube extends Newsroom\EntityAbstract
     {
         $this->username = $username;
     }
-
-    public function toArray()
-    {
-        return array(
-            'username'  => $this->getUsername()
-        );
-    }
 }

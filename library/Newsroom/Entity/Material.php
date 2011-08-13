@@ -138,17 +138,4 @@ class Material extends Newsroom\EntityAbstract
     {
         $this->update = $update;
     }
-
-    public function toArray()
-    {
-        return array(
-            'id'        => $this->getId(),
-            'title'     => $this->getTitle(),
-            'file'      => $this->getFile(),
-            'publish'   => $this->getPublish(),
-            'tags'      => $this->getTags(),
-            'create'    => $this->getCreate(),
-            'update'    => $this->getUpdate()
-        );
-    }
 }

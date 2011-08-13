@@ -132,16 +132,4 @@ class User extends Newsroom\EntityAbstract
     {
         $this->disabled = $disabled;
     }
-
-    public function toArray()
-    {
-        return array(
-            'id'        => $this->getId(),
-            'login'     => $this->getLogin(),
-            'title'     => $this->getTitle(),
-            'firstname' => $this->getFirstname(),
-            'lastname'  => $this->getLastname(),
-            'disabled'  => $this->getDisabled()
-        );
-    }
 }

@@ -128,17 +128,4 @@ class File extends Newsroom\EntityAbstract
     {
         $this->update = $update;
     }
-
-    public function toArray()
-    {
-        return array(
-            'id'        => $this->getId(),
-            'name'      => $this->getName(),
-            'mimetype'  => $this->getMimetype(),
-            'data'      => $this->getData(),
-            'size'      => $this->getSize(),
-            'create'    => $this->getCreate(),
-            'update'    => $this->getUpdate()
-        );
-    }
 }

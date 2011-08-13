@@ -242,23 +242,4 @@ class Event extends Newsroom\EntityAbstract
     {
         $this->update = $update;
     }
-
-    public function toArray()
-    {
-        return array(
-            'id'        => $this->getId(),
-            'headline'  => $this->getHeadline(),
-            'url'       => $this->getUrl(),
-            'date'      => $this->getDate(),
-            'time'      => $this->getTime(),
-            'location'  => $this->getLocation(),
-            'content'   => $this->getContent(),
-            'image'     => $this->getImage(),
-            'publish'   => $this->getPublish(),
-            'tags'      => $this->getTags(),
-            'comments'  => $this->getComments(),
-            'create'    => $this->getCreate(),
-            'update'    => $this->getUpdate()
-        );
-    }
 }

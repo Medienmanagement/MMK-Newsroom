@@ -98,19 +98,6 @@ class Tag extends Newsroom\EntityAbstract
         return $this->mediaResponses;
     }
 
-    public function toArray()
-    {
-        return array(
-            'id'             => $this->getId(),
-            'name'           => $this->getName(),
-            'news'           => $this->getNews(),
-            'events'         => $this->getEvents(),
-            'announcements'  => $this->getAnnouncements(),
-            'materials'      => $this->getMaterials(),
-            'mediaResponses' => $this->getMediaResponses()
-        );
-    }
-
     public function __toString()
     {
         return $this->getName();

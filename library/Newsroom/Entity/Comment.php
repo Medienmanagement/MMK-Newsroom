@@ -129,17 +129,4 @@ class Comment extends Newsroom\EntityAbstract
     {
         $this->create = $create;
     }
-
-    public function toArray()
-    {
-        return array(
-            'id'        => $this->getId(),
-            'news'      => $this->getNews(),
-            'event'     => $this->getEvent(),
-            'name'      => $this->getName(),
-            'email'     => $this->getEmail(),
-            'content'   => $this->getContent(),
-            'create'    => $this->getCreate()
-        );
-    }
 }

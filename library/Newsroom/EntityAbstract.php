@@ -48,5 +48,31 @@ abstract class EntityAbstract
         }
     }
 
-    abstract public function toArray();
+    public function toArray()
+    {
+        $data = array ();
+
+        $reflectionClass = new \ReflectionClass($this);
+        $methods = $reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC);
+
+        foreach ($methods as $method)
+        {
+            if (preg_match('~^get(.+)$~', $method->name, $matches) === 1)
+            {
+                $propertyName = strtolower($matches[1]);
+
+                try
+                {
+                    $reflectionClass->getProperty($propertyName);
+
+                    $data[$propertyName] = $this->{$method->name}();
+                }
+                catch (\ReflectionException $e)
+                {
+                }
+            }
+        }
+
+        return $data;
+    }
 }

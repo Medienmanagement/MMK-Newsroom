@@ -46,12 +46,4 @@ class Flickr extends Newsroom\EntityAbstract
     {
         $this->apiKey = $apiKey;
     }
-
-    public function toArray()
-    {
-        return array(
-            'username'  => $this->getUsername(),
-            'apiKey'    => $this->getApiKey()
-        );
-    }
 }

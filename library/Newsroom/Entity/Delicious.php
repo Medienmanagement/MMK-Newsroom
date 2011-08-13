@@ -61,13 +61,4 @@ class Delicious extends Newsroom\EntityAbstract
     {
         $this->filter = $filter;
     }
-
-    public function toArray()
-    {
-        return array(
-            'username'  => $this->getUsername(),
-            'password'  => $this->getPassword(),
-            'filter'    => $this->getFilter()
-        );
-    }
 }

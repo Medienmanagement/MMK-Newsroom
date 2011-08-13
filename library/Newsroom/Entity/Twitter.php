@@ -77,14 +77,4 @@ class Twitter extends Newsroom\EntityAbstract
     {
         $this->accessToken = $accessToken;
     }
-
-    public function toArray()
-    {
-        return array(
-            'username'          => $this->getUsername(),
-            'consumerKey'       => $this->getConsumerKey(),
-            'consumerSecret'    => $this->getConsumerSecret(),
-            'accessToken'       => $this->getAccessToken()
-        );
-    }
 }
