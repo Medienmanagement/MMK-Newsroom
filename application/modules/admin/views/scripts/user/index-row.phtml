@@ -1,7 +1,10 @@
 <tr>
     <td><?php echo $this->escape($this->object->login); ?></td>
-    <td><?php echo $this->escape($this->object->firstname); ?></td>
-    <td><?php echo $this->escape($this->object->lastname); ?></td>
+    <td>
+        <?php echo $this->escape($this->object->title); ?>
+        <?php echo $this->escape($this->object->firstname); ?>
+        <?php echo $this->escape($this->object->lastname); ?>
+    </td>
     <td><?php echo $this->object->disabled === true ? 'Ja' : 'Nein'; ?></td>
     <td>
         <ul>
