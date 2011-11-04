@@ -5,180 +5,58 @@
  * @license     please view LICENSE file
  */
 
-class Admin_EventController extends \Zend_Controller_Action
+class Admin_EventController
+    extends \Zend_Controller_Action
+    implements \Controller_Action_InterfaceForm, \Controller_Action_InterfaceRedirect
 {
     public function init()
     {
-        $this->eventRepository = $this->_helper
-                                      ->entityManager()
-                                      ->getRepository('\Newsroom\Entity\Event');
+    }
 
-        $this->commentRepository = $this->_helper
-                                        ->entityManager()
-                                        ->getRepository('\Newsroom\Entity\Comment');
+    public function getForm()
+    {
+        $configForm = $this->getInvokeArg('bootstrap')->getResource('configForm');
 
-        $this->currentUserEntity = $this->_helper->entityManager()->find(
-            '\Newsroom\Entity\User',
-            \Zend_Auth::getInstance()->getIdentity()->id
-        );
+        return new Form_TagForm($configForm->event);
+    }
+
+    public function getRedirect()
+    {
+        return '/admin/event';
+    }
+
+    public function getRepository()
+    {
+        return $this->_helper->entityManager()->getRepository('\Newsroom\Entity\Event');
     }
 
     public function indexAction()
     {
-        $this->view->events = $this->eventRepository->fetchEntities();
+        \Controller_Action_Factory::get('list', $this)->execute();
     }
 
     public function addAction()
     {
-        $configForm = $this->getInvokeArg('bootstrap')->getResource('configForm');
-        $eventForm = new Form_TagForm($configForm->event);
-
-        if ($this->getRequest()->isPost())
-        {
-            if ($eventForm->isValid($_POST))
-            {
-                try
-                {
-                    $values = $eventForm->getValues();
-                    $values['user'] = $this->currentUserEntity;
-                    $eventId = $this->eventRepository->saveEntity($values);
-
-                    $this->_helper->systemMessages('notice', 'Event erfolgreich gespeichert');
-
-                    $this->_redirect('/admin/event/edit/' . $eventId);
-                }
-                catch (\Exception $e)
-                {
-                    $log = $this->getInvokeArg('bootstrap')->log;
-                    $log->log(
-                            $e->getMessage(),
-                            \Zend_Log::ERR,
-                            array('trace' => $e->getTraceAsString())
-                    );
-
-                    $this->_helper->systemMessages('error', 'Event konnte nicht gespeichert werden');
-                }
-            }
-        }
-
-        $eventForm->setAction('/admin/event/add');
-        $this->view->form = $eventForm;
+        \Controller_Action_Factory::get('addContent', $this)->execute();
     }
 
     public function editAction()
     {
-        $configForm = $this->getInvokeArg('bootstrap')->getResource('configForm');
-        $eventForm = new Form_TagForm($configForm->event);
-
-        $eventId = $this->getRequest()->getParam('id', null);
-        try
-        {
-            $entity = $this->eventRepository->fetchEntity($eventId);
-            $eventForm->image->setOrginValue($entity->image);
-        }
-        catch (\Exception $e)
-        {
-            throw new \Exception($e->getMessage(), 404);
-        }
-
-        if ($this->getRequest()->isPost())
-        {
-            if ($eventForm->isValid($_POST))
-            {
-                try
-                {
-                    $values = $eventForm->getValues();
-                    $values['user'] = $this->currentUserEntity;
-                    $eventId = $this->eventRepository->saveEntity($values);
-
-                    $eventForm->image->setOrginValue($entity->image);
-
-                    $this->_helper->systemMessages('notice', 'Event erfolgreich gespeichert');
-                }
-                catch (\Exception $e)
-                {
-                    $log = $this->getInvokeArg('bootstrap')->log;
-                    $log->log(
-                            $e->getMessage(),
-                            \Zend_Log::ERR,
-                            array('trace' => $e->getTraceAsString())
-                    );
-
-                    $this->_helper->systemMessages('error', 'Event konnte nicht gespeichert werden');
-                }
-            }
-        }
-        else
-        {
-            $eventForm->populate($entity->toArray());
-        }
-
-        $eventForm->setAction('/admin/event/edit/' . $eventId);
-        $this->view->form = $eventForm;
+        \Controller_Action_Factory::get('editContent', $this)->execute();
     }
 
     public function deleteAction()
     {
-        $eventId = $this->getRequest()->getParam('id', null);
-
-        try
-        {
-            $this->eventRepository->deleteEntity($eventId);
-
-            $this->_helper->systemMessages('notice', 'Event erfolgreich gelöscht');
-        }
-        catch (\Exception $e)
-        {
-            $log = $this->getInvokeArg('bootstrap')->log;
-            $log->log(
-                    $e->getMessage(),
-                    \Zend_Log::ERR,
-                    array('trace' => $e->getTraceAsString())
-            );
-
-            $this->_helper->systemMessages('error', 'Event konnte nicht gelöscht werden');
-        }
-
-        $this->_redirect('/admin/event');
+        \Controller_Action_Factory::get('delete', $this)->execute();
     }
 
     public function commentAction()
     {
-        $eventId = $this->getRequest()->getParam('id', null);
-
-        try
-        {
-            $this->view->event = $this->eventRepository->fetchEntity($eventId);
-        }
-        catch (\Exception $e)
-        {
-            throw new \Exception($e->getMessage(), 404);
-        }
+        \Controller_Action_Factory::get('detail', $this)->execute();
     }
 
     public function commentDeleteAction()
     {
-        $commentId = $this->getRequest()->getParam('id', null);
-
-        try
-        {
-            $comment = $this->commentRepository->fetchEntity($commentId);
-            $this->commentRepository->deleteEntity($commentId);
-
-            $this->_helper->systemMessages('notice', 'Kommentar erfolgreich gelöscht');
-        }
-        catch (\Exception $e)
-        {
-            $log = $this->getInvokeArg('bootstrap')->log;
-            $log->log(
-                    $e->getMessage(),
-                    \Zend_Log::ERR,
-                    array('trace' => $e->getTraceAsString())
-            );
-
-            $this->_helper->systemMessages('error', 'Kommentar konnte nicht gelöscht werden');
-        }
-
-        $this->_redirect('/admin/event/comment/' . $comment->event->id);
+        \Controller_Action_Factory::get('deleteComment', $this)->execute();
     }
 }

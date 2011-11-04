@@ -15,106 +15,109 @@ class NewsroomEntityTagProxy extends \Newsroom\Entity\Tag implements \Doctrine\O
         $this->_entityPersister = $entityPersister;
         $this->_identifier = $identifier;
     }
-    private function _load()
+    /** @private */
+    public function __load()
     {
         if (!$this->__isInitialized__ && $this->_entityPersister) {
             $this->__isInitialized__ = true;
+
+            if (method_exists($this, "__wakeup")) {
+                // call this after __isInitialized__to avoid infinite recursion
+                // but before loading to emulate what ClassMetadata::newInstance()
+                // provides.
+                $this->__wakeup();
+            }
+
             if ($this->_entityPersister->load($this->_identifier, $this) === null) {
                 throw new \Doctrine\ORM\EntityNotFoundException();
             }
             unset($this->_entityPersister, $this->_identifier);
         }
     }
-
+    
     
     public function getId()
     {
-        $this->_load();
+        $this->__load();
         return parent::getId();
     }
 
     public function setId($id)
     {
-        $this->_load();
+        $this->__load();
         return parent::setId($id);
     }
 
     public function getName()
     {
-        $this->_load();
+        $this->__load();
         return parent::getName();
     }
 
     public function setName($name)
     {
-        $this->_load();
+        $this->__load();
         return parent::setName($name);
     }
 
     public function getNews()
     {
-        $this->_load();
+        $this->__load();
         return parent::getNews();
     }
 
     public function getEvents()
     {
-        $this->_load();
+        $this->__load();
         return parent::getEvents();
     }
 
     public function getAnnouncements()
     {
-        $this->_load();
+        $this->__load();
         return parent::getAnnouncements();
     }
 
     public function getMaterials()
     {
-        $this->_load();
+        $this->__load();
         return parent::getMaterials();
-    }
-
-    public function getMediaResponses()
-    {
-        $this->_load();
-        return parent::getMediaResponses();
-    }
-
-    public function toArray()
-    {
-        $this->_load();
-        return parent::toArray();
     }
 
     public function __toString()
     {
-        $this->_load();
+        $this->__load();
         return parent::__toString();
     }
 
     public function __get($name)
     {
-        $this->_load();
+        $this->__load();
         return parent::__get($name);
     }
 
     public function __set($name, $value)
     {
-        $this->_load();
+        $this->__load();
         return parent::__set($name, $value);
     }
 
     public function setFromArray(array $values)
     {
-        $this->_load();
+        $this->__load();
         return parent::setFromArray($values);
+    }
+
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
     }
 
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'news', 'events', 'announcements', 'materials', 'mediaResponses');
+        return array('__isInitialized__', 'id', 'name', 'news', 'events', 'announcements', 'materials');
     }
 
     public function __clone()

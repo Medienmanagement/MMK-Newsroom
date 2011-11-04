@@ -3,9 +3,9 @@
 <head>
     <meta charset="<?php echo $this->getEncoding(); ?>">
     <!-- <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $this->getEncoding(); ?>"></meta> -->
-    
+
     <?php echo $this->headTitle(); ?>
-    
+
     <?php echo $this->headMeta() ?>
     <meta name="author" content="Mirko Bitsch, Patrick Kromeyer, Anne Grubert, Simon Greiner">
 
@@ -40,7 +40,7 @@
             echo $this->partial('partial/blogs_networks.phtml');
             echo $this->partial('partial/multimedia_bookmarks.phtml');
             echo $this->partial('partial/subscription.phtml');
-            echo $this->partial('partial/contact.phtml');
+            echo $this->partial('partial/contact-information.phtml');
         ?>
 	</aside>
 	<div id="content">
@@ -52,7 +52,7 @@
             echo $this->partial('partial/youtube.phtml');
             echo $this->partial('partial/delicious.phtml');
             echo $this->partial('partial/subscription.phtml');
-			echo $this->partial('partial/contact.phtml');
+			echo $this->partial('partial/contact-information.phtml');
         ?>
     </aside>
     <hr id="clear">

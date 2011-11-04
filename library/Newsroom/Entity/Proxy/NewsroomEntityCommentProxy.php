@@ -15,124 +15,133 @@ class NewsroomEntityCommentProxy extends \Newsroom\Entity\Comment implements \Do
         $this->_entityPersister = $entityPersister;
         $this->_identifier = $identifier;
     }
-    private function _load()
+    /** @private */
+    public function __load()
     {
         if (!$this->__isInitialized__ && $this->_entityPersister) {
             $this->__isInitialized__ = true;
+
+            if (method_exists($this, "__wakeup")) {
+                // call this after __isInitialized__to avoid infinite recursion
+                // but before loading to emulate what ClassMetadata::newInstance()
+                // provides.
+                $this->__wakeup();
+            }
+
             if ($this->_entityPersister->load($this->_identifier, $this) === null) {
                 throw new \Doctrine\ORM\EntityNotFoundException();
             }
             unset($this->_entityPersister, $this->_identifier);
         }
     }
-
+    
     
     public function getId()
     {
-        $this->_load();
+        $this->__load();
         return parent::getId();
     }
 
     public function setId($id)
     {
-        $this->_load();
+        $this->__load();
         return parent::setId($id);
     }
 
     public function getEvent()
     {
-        $this->_load();
+        $this->__load();
         return parent::getEvent();
     }
 
     public function setEvent($event)
     {
-        $this->_load();
+        $this->__load();
         return parent::setEvent($event);
     }
 
     public function getNews()
     {
-        $this->_load();
+        $this->__load();
         return parent::getNews();
     }
 
     public function setNews($news)
     {
-        $this->_load();
+        $this->__load();
         return parent::setNews($news);
     }
 
     public function getName()
     {
-        $this->_load();
+        $this->__load();
         return parent::getName();
     }
 
     public function setName($name)
     {
-        $this->_load();
+        $this->__load();
         return parent::setName($name);
     }
 
     public function getEmail()
     {
-        $this->_load();
+        $this->__load();
         return parent::getEmail();
     }
 
     public function setEmail($email)
     {
-        $this->_load();
+        $this->__load();
         return parent::setEmail($email);
     }
 
     public function getContent()
     {
-        $this->_load();
+        $this->__load();
         return parent::getContent();
     }
 
     public function setContent($content)
     {
-        $this->_load();
+        $this->__load();
         return parent::setContent($content);
     }
 
     public function getCreate($format = 'd.m.Y')
     {
-        $this->_load();
+        $this->__load();
         return parent::getCreate($format);
     }
 
     public function setCreate($create)
     {
-        $this->_load();
+        $this->__load();
         return parent::setCreate($create);
-    }
-
-    public function toArray()
-    {
-        $this->_load();
-        return parent::toArray();
     }
 
     public function __get($name)
     {
-        $this->_load();
+        $this->__load();
         return parent::__get($name);
     }
 
     public function __set($name, $value)
     {
-        $this->_load();
+        $this->__load();
         return parent::__set($name, $value);
     }
 
     public function setFromArray(array $values)
     {
-        $this->_load();
+        $this->__load();
         return parent::setFromArray($values);
+    }
+
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
     }
 
 

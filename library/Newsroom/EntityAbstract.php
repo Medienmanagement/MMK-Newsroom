@@ -40,6 +40,18 @@ abstract class EntityAbstract
         $this->$methodName($value);
     }
 
+    public function __isset($name)
+    {
+        $value = $this->__get($name);
+
+        return isset ($value);
+    }
+
+    public function __unset($name)
+    {
+        $this->__set($name, null);
+    }
+
     public function setFromArray(array $values)
     {
         foreach ($values as $name => $value)
@@ -59,7 +71,7 @@ abstract class EntityAbstract
         {
             if (preg_match('~^get(.+)$~', $method->name, $matches) === 1)
             {
-                $propertyName = strtolower($matches[1]);
+                $propertyName = lcfirst($matches[1]);
 
                 try
                 {

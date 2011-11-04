@@ -30,19 +30,4 @@
     ?>
 </section>
 
-<section id="mediaResponses" class="press">
-    <?php
-        foreach ($this->mediaResponses as $mediaResponse)
-        {
-            echo $this->partial(
-                'partial/media-response.phtml',
-                array (
-                    'item'  => $mediaResponse
-                )
-            );
-        }
-    ?>
-</section>
-
-
 <p>Eine breite Auswahl an Pressefotos finden Sie im Flickr-Account unter <br><a href="http://www.flickr.com/photos/medienmanagement/">http://www.flickr.com/photos/medienmanagement/</a></p>

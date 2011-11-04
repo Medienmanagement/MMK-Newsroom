@@ -16,10 +16,6 @@ class Default_PressController extends \Zend_Controller_Action
         $this->materialRepository = $this->_helper
                                          ->entityManager()
                                          ->getRepository('\Newsroom\Entity\Material');
-
-        $this->mediaResponseRepository = $this->_helper
-                                              ->entityManager()
-                                              ->getRepository('\Newsroom\Entity\MediaResponse');
     }
 
     public function indexAction()
@@ -28,6 +24,5 @@ class Default_PressController extends \Zend_Controller_Action
 
         $this->view->announcements = $this->announcementRepository->fetchEntities();
         $this->view->materials = $this->materialRepository->fetchEntities();
-        $this->view->mediaResponses = $this->mediaResponseRepository->fetchEntities();
     }
 }

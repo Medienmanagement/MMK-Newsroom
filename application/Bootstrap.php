@@ -66,9 +66,9 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
                     'form' => array(
                         'path' => 'forms',
                         'namespace' => 'Form_'),
-                    'helper' => array(
-                        'path' => 'controllers/action/helper',
-                        'namespace' => 'Controller_Action_Helper_'),
+                    'actions' => array(
+                        'path' => 'controllers/actions',
+                        'namespace' => 'Controller_Action_'),
                     'plugin' => array(
                         'path' => 'controllers/plugins',
                         'namespace' => 'Controller_Plugin_')

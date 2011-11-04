@@ -34,6 +34,15 @@ a:active {
     padding-bottom: 0.1em;
 }
 
+h1 a:hover,
+h1 a:active {
+    border-bottom-width: 0.05em;
+}
+
+h1 a:before {
+    content: "";
+}
+
 label a {
     cursor: pointer;
 }

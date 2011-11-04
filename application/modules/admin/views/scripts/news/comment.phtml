@@ -1,4 +1,4 @@
-<h2><?php echo $this->escape($this->news->headline); ?></h2>
+<h2><?php echo $this->escape($this->object->headline); ?></h2>
 
 <table>
     <thead>
@@ -10,6 +10,6 @@
         </tr>
     </thead>
     <tbody>
-        <?php echo $this->partialLoop('news/comment-row.phtml', $this->news->comments); ?>
+        <?php echo $this->partialLoop('news/comment-row.phtml', $this->object->comments); ?>
     </tbody>
 </table>

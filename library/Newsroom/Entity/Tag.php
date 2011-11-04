@@ -48,11 +48,6 @@ class Tag extends Newsroom\EntityAbstract
      */
     protected $materials;
 
-    /**
-     * @ManyToMany(targetEntity="MediaResponse", mappedBy="tags")
-     */
-    protected $mediaResponses;
-
     public function getId()
     {
         return $this->id;
@@ -91,11 +86,6 @@ class Tag extends Newsroom\EntityAbstract
     public function getMaterials()
     {
         return $this->materials;
-    }
-
-    public function getMediaResponses()
-    {
-        return $this->mediaResponses;
     }
 
     public function __toString()

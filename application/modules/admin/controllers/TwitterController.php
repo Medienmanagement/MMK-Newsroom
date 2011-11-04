@@ -5,13 +5,22 @@
  * @license     please view LICENSE file
  */
 
-class Admin_TwitterController extends \Zend_Controller_Action
+class Admin_TwitterController
+    extends \Zend_Controller_Action
+    implements \Controller_Action_InterfaceRepository, \Controller_Action_InterfaceRedirect
 {
+    public function getRedirect()
+    {
+        return '/admin/twitter';
+    }
+
+    public function getRepository()
+    {
+        return $this->_helper->entityManager()->getRepository('\Newsroom\Entity\Twitter');
+    }
+
     public function init()
     {
-        $this->twitterRepository = $this->_helper
-                                        ->entityManager()
-                                        ->getRepository('\Newsroom\Entity\Twitter');
     }
 
     public function indexAction()
@@ -32,7 +41,7 @@ class Admin_TwitterController extends \Zend_Controller_Action
             {
                 try
                 {
-                    $this->twitterRepository->saveEntity($twitterApiForm->getValues());
+                    $this->getRepository()->saveEntity($twitterApiForm->getValues());
 
                     $oauthConfig['consumerKey'] = $twitterApiForm->getValue('consumerKey');
                     $oauthConfig['consumerSecret'] = $twitterApiForm->getValue('consumerSecret');
@@ -59,7 +68,7 @@ class Admin_TwitterController extends \Zend_Controller_Action
         {
             try
             {
-                $entity = $this->twitterRepository->fetchEntity();
+                $entity = $this->getRepository()->fetchEntity();
 
                 if ($entity)
                 {
@@ -74,13 +83,14 @@ class Admin_TwitterController extends \Zend_Controller_Action
                             unserialize($session->twitterRequestToken)
                         );
 
-                        $this->twitterRepository->saveEntity(
+                        $this->getRepository()->saveEntity(
                             array('accessToken' => serialize($token))
                         );
 
                         unset($session->twitterRequestToken);
 
-                        $this->_helper->systemMessages('notice', 'Einstellungen erfolgreich gespeichert');
+                        $this->_helper->systemMessages('notice', 'Speichervorgang erfolgreich');
+                        $this->_redirect($this->getRedirect());
                     }
                     $twitterApiForm->populate($entity->toArray());
                 }
@@ -94,34 +104,16 @@ class Admin_TwitterController extends \Zend_Controller_Action
                         array('trace' => $e->getTraceAsString())
                 );
 
-                $this->_helper->systemMessages('error', 'Einstellungen konnte nicht gespeichert werden');
+                $this->_helper->systemMessages('error', 'Speichervorgang nicht erfolgreich');
             }
         }
 
-        $twitterApiForm->setAction('/admin/twitter');
+        $twitterApiForm->setAction($this->getRedirect());
         $this->view->form = $twitterApiForm;
     }
 
     public function deleteAction()
     {
-        try
-        {
-            $this->twitterRepository->deleteEntity();
-
-            $this->_helper->systemMessages('notice', 'Einstellungen erfolgreich gelöscht');
-        }
-        catch (\Exception $e)
-        {
-            $log = $this->getInvokeArg('bootstrap')->log;
-            $log->log(
-                    $e->getMessage(),
-                    \Zend_Log::ERR,
-                    array('trace' => $e->getTraceAsString())
-            );
-
-            $this->_helper->systemMessages('error', 'Einstellungen konnten nicht gelöscht werden');
-        }
-
-        $this->_redirect('/admin/twitter');
+        \Controller_Action_Factory::get('singleDelete', $this)->execute();
     }
 }

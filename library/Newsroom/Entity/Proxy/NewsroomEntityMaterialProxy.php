@@ -15,124 +15,133 @@ class NewsroomEntityMaterialProxy extends \Newsroom\Entity\Material implements \
         $this->_entityPersister = $entityPersister;
         $this->_identifier = $identifier;
     }
-    private function _load()
+    /** @private */
+    public function __load()
     {
         if (!$this->__isInitialized__ && $this->_entityPersister) {
             $this->__isInitialized__ = true;
+
+            if (method_exists($this, "__wakeup")) {
+                // call this after __isInitialized__to avoid infinite recursion
+                // but before loading to emulate what ClassMetadata::newInstance()
+                // provides.
+                $this->__wakeup();
+            }
+
             if ($this->_entityPersister->load($this->_identifier, $this) === null) {
                 throw new \Doctrine\ORM\EntityNotFoundException();
             }
             unset($this->_entityPersister, $this->_identifier);
         }
     }
-
+    
     
     public function getId()
     {
-        $this->_load();
+        $this->__load();
         return parent::getId();
     }
 
     public function setId($id)
     {
-        $this->_load();
+        $this->__load();
         return parent::setId($id);
     }
 
     public function getTitle()
     {
-        $this->_load();
+        $this->__load();
         return parent::getTitle();
     }
 
     public function setTitle($title)
     {
-        $this->_load();
+        $this->__load();
         return parent::setTitle($title);
     }
 
     public function getFile()
     {
-        $this->_load();
+        $this->__load();
         return parent::getFile();
     }
 
     public function setFile($file)
     {
-        $this->_load();
+        $this->__load();
         return parent::setFile($file);
     }
 
     public function getPublish($format = 'd.m.Y')
     {
-        $this->_load();
+        $this->__load();
         return parent::getPublish($format);
     }
 
     public function setPublish($date)
     {
-        $this->_load();
+        $this->__load();
         return parent::setPublish($date);
     }
 
     public function getTags()
     {
-        $this->_load();
+        $this->__load();
         return parent::getTags();
     }
 
     public function setTags($tags)
     {
-        $this->_load();
+        $this->__load();
         return parent::setTags($tags);
     }
 
     public function getCreate($format = 'd.m.Y')
     {
-        $this->_load();
+        $this->__load();
         return parent::getCreate($format);
     }
 
     public function setCreate($create)
     {
-        $this->_load();
+        $this->__load();
         return parent::setCreate($create);
     }
 
     public function getUpdate($format = 'd.m.Y')
     {
-        $this->_load();
+        $this->__load();
         return parent::getUpdate($format);
     }
 
     public function setUpdate($update)
     {
-        $this->_load();
+        $this->__load();
         return parent::setUpdate($update);
-    }
-
-    public function toArray()
-    {
-        $this->_load();
-        return parent::toArray();
     }
 
     public function __get($name)
     {
-        $this->_load();
+        $this->__load();
         return parent::__get($name);
     }
 
     public function __set($name, $value)
     {
-        $this->_load();
+        $this->__load();
         return parent::__set($name, $value);
     }
 
     public function setFromArray(array $values)
     {
-        $this->_load();
+        $this->__load();
         return parent::setFromArray($values);
+    }
+
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
     }
 
 

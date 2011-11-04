@@ -21,6 +21,7 @@ header {
 	-webkit-box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.6);
 	-moz-box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.6);
 	background-position: 170px 0;
+	display: block;
 }
 header img#logommk {
 	float: right;
@@ -30,6 +31,7 @@ nav {
 	text-align: center;
 	height: 1.5833em;
 	border-bottom: 0.5em solid #ccc;
+	display: block;
 }
 nav ul {
 	margin: 0;
@@ -254,9 +256,6 @@ section#announcements.press.overview {
 }
 section#materials.press.overview {
 	background-position: 0 0;
-}
-section#mediaResponses {
-	display: none;
 }
 /*
 news and events

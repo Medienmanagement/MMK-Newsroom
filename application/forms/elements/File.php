@@ -33,6 +33,10 @@ class Form_Element_File extends \Zend_Form_Element_File
         return $this->_orginValue;
     }
 
+    /*
+     * enables a preview of the existing element in the view script,
+     * also needed for validation, if element is required
+     */
     public function setOrginValue($orginValue)
     {
         $this->_orginValue = $orginValue;
@@ -52,7 +56,13 @@ class Form_Element_File extends \Zend_Form_Element_File
     {
         if ($this->isUploaded())
         {
-            // new id, if i always fetch a new entity for every upload
+            /*
+             * also possible:
+             * if orphanRemoval=true is set, we can also fetch a new enitity
+             * instead of make use of the old one - so we get a new primary key
+             * for every image change and this can reduce trouble with caching
+             */
+
             if ($this->_value === null)
             {
                 $this->_value = $this->_fileRepository->fetchNew();

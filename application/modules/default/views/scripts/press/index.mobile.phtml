@@ -25,17 +25,3 @@
         }
     ?>
 </section>
-
-<section id="mediaResponses" class="press">
-    <?php
-        foreach ($this->mediaResponses as $mediaResponse)
-        {
-            echo $this->partial(
-                'partial/media-response.phtml',
-                array (
-                    'item'  => $mediaResponse
-                )
-            );
-        }
-    ?>
-</section>

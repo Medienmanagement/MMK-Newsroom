@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    name="newsroom"
+    default="update"
+    basedir="."
+>
+    <target
+        name="cleanup"
+    >
+        <delete dir="${basedir}/cache">
+            <include name="*"/>
+            <exclude name="README"/>
+        </delete>
+        <delete dir="${basedir}/log">
+            <include name="*"/>
+            <exclude name="README"/>
+        </delete>
+    </target>
+    <target
+        name="permissions"
+    >
+        <chmod perm="a+rw" dir="${basedir}/cache"></chmod>
+        <chmod perm="a+rw" dir="${basedir}/log"></chmod>
+    </target>
+    <target
+        name="db-create"
+    >
+        <exec dir="${basedir}/bin" executable="php">
+            <arg line="doctrine.php orm:schema-tool:drop --force"/>
+            <env key="APPLICATION_ENV" value="development"/>
+        </exec>
+        <exec dir="${basedir}/bin" executable="php">
+            <arg line="doctrine.php orm:schema-tool:create"/>
+            <env key="APPLICATION_ENV" value="development"/>
+        </exec>
+        <exec dir="${basedir}/bin" executable="php">
+            <arg line="doctrine.php dbal:import ../database/init.sql"/>
+            <env key="APPLICATION_ENV" value="development"/>
+        </exec>
+    </target>
+    <target
+        name="db-update"
+    >
+        <exec dir="${basedir}/bin" executable="php">
+            <arg line="doctrine.php orm:schema-tool:update --force"/>
+            <env key="APPLICATION_ENV" value="development"/>
+        </exec>
+    </target>
+    <target
+        name="log"
+    >
+        <chmod perm="a+rw" dir="${basedir}/log/log.txt"></chmod>
+    </target>
+    <target
+        name="init"
+        depends="cleanup,permissions,db-create,log"
+    />
+    <target
+        name="update"
+        depends="cleanup,permissions,db-update,log"
+    />
+</project>

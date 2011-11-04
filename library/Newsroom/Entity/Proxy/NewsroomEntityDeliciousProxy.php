@@ -15,76 +15,85 @@ class NewsroomEntityDeliciousProxy extends \Newsroom\Entity\Delicious implements
         $this->_entityPersister = $entityPersister;
         $this->_identifier = $identifier;
     }
-    private function _load()
+    /** @private */
+    public function __load()
     {
         if (!$this->__isInitialized__ && $this->_entityPersister) {
             $this->__isInitialized__ = true;
+
+            if (method_exists($this, "__wakeup")) {
+                // call this after __isInitialized__to avoid infinite recursion
+                // but before loading to emulate what ClassMetadata::newInstance()
+                // provides.
+                $this->__wakeup();
+            }
+
             if ($this->_entityPersister->load($this->_identifier, $this) === null) {
                 throw new \Doctrine\ORM\EntityNotFoundException();
             }
             unset($this->_entityPersister, $this->_identifier);
         }
     }
-
+    
     
     public function getUsername()
     {
-        $this->_load();
+        $this->__load();
         return parent::getUsername();
     }
 
     public function setUsername($username)
     {
-        $this->_load();
+        $this->__load();
         return parent::setUsername($username);
     }
 
     public function getPassword()
     {
-        $this->_load();
+        $this->__load();
         return parent::getPassword();
     }
 
     public function setPassword($password)
     {
-        $this->_load();
+        $this->__load();
         return parent::setPassword($password);
     }
 
     public function getFilter()
     {
-        $this->_load();
+        $this->__load();
         return parent::getFilter();
     }
 
     public function setFilter($filter)
     {
-        $this->_load();
+        $this->__load();
         return parent::setFilter($filter);
-    }
-
-    public function toArray()
-    {
-        $this->_load();
-        return parent::toArray();
     }
 
     public function __get($name)
     {
-        $this->_load();
+        $this->__load();
         return parent::__get($name);
     }
 
     public function __set($name, $value)
     {
-        $this->_load();
+        $this->__load();
         return parent::__set($name, $value);
     }
 
     public function setFromArray(array $values)
     {
-        $this->_load();
+        $this->__load();
         return parent::setFromArray($values);
+    }
+
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
     }
 
 

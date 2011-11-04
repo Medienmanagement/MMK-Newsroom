@@ -1,0 +1,80 @@
+<?php
+    $contactInfomation = $this->contactInformation();
+    if ($contactInfomation)
+    {
+?>
+    <section class="contact start">
+        <h1>Kontakt</h1>
+        <div
+            id="hcard-<?php echo $contactInfomation->firstname; ?>-<?php echo $contactInfomation->lastname; ?>"
+            class="vcard box"
+        >
+            <?php if (!empty ($contactInfomation->image)) { ?>
+                <img
+                    style="float:left"
+                    src="/thumb_<?php echo $contactInfomation->image->id; ?>_ffp_90x120.jpg"
+                    alt="Foto von <?php echo $contactInfomation->title; ?> <?php echo $contactInfomation->firstname; ?> <?php echo $contactInfomation->lastname; ?>"
+                    class="photo"
+                />
+            <?php } ?>
+            <?php if (!empty ($contactInfomation->website)) { ?>
+                <a
+                    class="url fn"
+                    href="<?php echo $contactInfomation->website; ?>"
+                >
+                    <?php echo $contactInfomation->title; ?>
+                    <?php echo $contactInfomation->firstname; ?>
+                    <?php echo $contactInfomation->lastname; ?>
+                </a>
+            <?php } else { ?>
+                <span
+                    class="fn"
+                >
+                    <?php echo $contactInfomation->title; ?>
+                    <?php echo $contactInfomation->firstname; ?>
+                    <?php echo $contactInfomation->lastname; ?>
+                </span>
+            <?php } ?>
+            <?php if (!empty ($contactInfomation->organization)) { ?>
+                <div class="org"><?php echo $contactInfomation->organization; ?></div>
+            <?php } ?>
+            <div class="adr">
+                <?php if (!empty ($contactInfomation->street)) { ?>
+                    <div class="street-address">
+                        <?php echo $contactInfomation->street; ?>
+                    </div>
+                <?php } ?>
+                <?php if (!empty ($contactInfomation->city)) { ?>
+                    <span class="locality">
+                        <?php echo $contactInfomation->city; ?>
+                    </span>,
+                <?php } ?>
+                <?php if (!empty ($contactInfomation->zipcode)) { ?>
+                    <span class="postal-code">
+                        <?php echo $contactInfomation->zipcode; ?>
+                    </span>
+                <?php } ?>
+            </div>
+            <div class="mail">
+                via <a href="mailto:<?php echo $contactInfomation->email; ?>">E-Mail</a>
+            </div>
+            <?php if (!empty ($contactInfomation->facebook)) { ?>
+                <div class="facebook">
+                    via <a href="<?php echo $contactInfomation->facebook; ?>">facebook</a>
+                </div>
+            <?php } ?>
+            <?php if (!empty ($contactInfomation->xing)) { ?>
+                <div class="xing">
+                    via <a href="<?php echo $contactInfomation->xing; ?>">xing</a>
+                </div>
+            <?php } ?>
+            <?php if (!empty ($contactInfomation->phone)) { ?>
+                <div class="tel">
+                    <?php echo $contactInfomation->phone; ?>
+                </div>
+            <?php } ?>
+        </div>
+    </section>
+<?php
+    }
+?>

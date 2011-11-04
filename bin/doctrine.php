@@ -23,11 +23,11 @@ $application = new Zend_Application(
     APPLICATION_PATH . '/configs/application.ini'
 );
 
+// Bootstrapping resources
+$bootstrap = $application->bootstrap()->getBootstrap();
+
 // Retrieve Doctrine Container resource
-$container = $application->bootstrap('Autoloader')
-                         ->bootstrap('Doctrine')
-                         ->getBootstrap()
-                         ->doctrine;
+$container = $bootstrap->getResource('doctrine');
 
 // Console
 $cli = new \Symfony\Component\Console\Application(
@@ -72,6 +72,7 @@ $cli->addCommands(array(
     new \Doctrine\ORM\Tools\Console\Command\GenerateProxiesCommand(),
     new \Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand(),
     new \Doctrine\ORM\Tools\Console\Command\RunDqlCommand(),
+    new \Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand(),
 
 ));
 

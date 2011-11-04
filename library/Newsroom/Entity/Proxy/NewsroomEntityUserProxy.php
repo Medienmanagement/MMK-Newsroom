@@ -15,124 +15,133 @@ class NewsroomEntityUserProxy extends \Newsroom\Entity\User implements \Doctrine
         $this->_entityPersister = $entityPersister;
         $this->_identifier = $identifier;
     }
-    private function _load()
+    /** @private */
+    public function __load()
     {
         if (!$this->__isInitialized__ && $this->_entityPersister) {
             $this->__isInitialized__ = true;
+
+            if (method_exists($this, "__wakeup")) {
+                // call this after __isInitialized__to avoid infinite recursion
+                // but before loading to emulate what ClassMetadata::newInstance()
+                // provides.
+                $this->__wakeup();
+            }
+
             if ($this->_entityPersister->load($this->_identifier, $this) === null) {
                 throw new \Doctrine\ORM\EntityNotFoundException();
             }
             unset($this->_entityPersister, $this->_identifier);
         }
     }
-
+    
     
     public function verifyLogin($value)
     {
-        $this->_load();
+        $this->__load();
         return parent::verifyLogin($value);
     }
 
     public function setPassword($value)
     {
-        $this->_load();
+        $this->__load();
         return parent::setPassword($value);
     }
 
     public function getId()
     {
-        $this->_load();
+        $this->__load();
         return parent::getId();
     }
 
     public function setId($id)
     {
-        $this->_load();
+        $this->__load();
         return parent::setId($id);
     }
 
     public function getLogin()
     {
-        $this->_load();
+        $this->__load();
         return parent::getLogin();
     }
 
     public function setLogin($login)
     {
-        $this->_load();
+        $this->__load();
         return parent::setLogin($login);
     }
 
     public function getTitle()
     {
-        $this->_load();
+        $this->__load();
         return parent::getTitle();
     }
 
     public function setTitle($title)
     {
-        $this->_load();
+        $this->__load();
         return parent::setTitle($title);
     }
 
     public function getFirstname()
     {
-        $this->_load();
+        $this->__load();
         return parent::getFirstname();
     }
 
     public function setFirstname($firstname)
     {
-        $this->_load();
+        $this->__load();
         return parent::setFirstname($firstname);
     }
 
     public function getLastname()
     {
-        $this->_load();
+        $this->__load();
         return parent::getLastname();
     }
 
     public function setLastname($lastname)
     {
-        $this->_load();
+        $this->__load();
         return parent::setLastname($lastname);
     }
 
     public function getDisabled()
     {
-        $this->_load();
+        $this->__load();
         return parent::getDisabled();
     }
 
     public function setDisabled($disabled)
     {
-        $this->_load();
+        $this->__load();
         return parent::setDisabled($disabled);
-    }
-
-    public function toArray()
-    {
-        $this->_load();
-        return parent::toArray();
     }
 
     public function __get($name)
     {
-        $this->_load();
+        $this->__load();
         return parent::__get($name);
     }
 
     public function __set($name, $value)
     {
-        $this->_load();
+        $this->__load();
         return parent::__set($name, $value);
     }
 
     public function setFromArray(array $values)
     {
-        $this->_load();
+        $this->__load();
         return parent::setFromArray($values);
+    }
+
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
     }
 
 
