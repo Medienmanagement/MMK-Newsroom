@@ -5,58 +5,61 @@
  * @license     please view LICENSE file
  */
 
-class Admin_EventController
-    extends \Zend_Controller_Action
-    implements \Controller_Action_InterfaceForm, \Controller_Action_InterfaceRedirect
+class Admin_EventController extends \Zend_Controller_Action
 {
     public function init()
     {
-    }
-
-    public function getForm()
-    {
+        $entityManager = $this->_helper->entityManager();
+        $repository = $entityManager->getRepository('\Newsroom\Entity\Event');
         $configForm = $this->getInvokeArg('bootstrap')->getResource('configForm');
 
-        return new Form_TagForm($configForm->event);
-    }
-
-    public function getRedirect()
-    {
-        return '/admin/event';
-    }
-
-    public function getRepository()
-    {
-        return $this->_helper->entityManager()->getRepository('\Newsroom\Entity\Event');
+        $this->service = new \Controller_Service_CrudContent(
+                $this,
+                $entityManager,
+                $repository,
+                new \Form_TagForm($configForm->event),
+                '/admin/event'
+        );
     }
 
     public function indexAction()
     {
-        \Controller_Action_Factory::get('list', $this)->execute();
+        $this->service->get();
     }
 
     public function addAction()
     {
-        \Controller_Action_Factory::get('addContent', $this)->execute();
+        $this->service->add();
     }
 
     public function editAction()
     {
-        \Controller_Action_Factory::get('editContent', $this)->execute();
+        $this->service->edit();
     }
 
     public function deleteAction()
     {
-        \Controller_Action_Factory::get('delete', $this)->execute();
+        $this->service->delete();
     }
 
     public function commentAction()
     {
-        \Controller_Action_Factory::get('detail', $this)->execute();
+        $this->service->detail();
     }
 
     public function commentDeleteAction()
     {
-        \Controller_Action_Factory::get('deleteComment', $this)->execute();
+        $entityManager = $this->_helper->entityManager();
+        $repository = $entityManager->getRepository('\Newsroom\Entity\Comment');
+
+        $service = new \Controller_Service_Crud(
+                $this,
+                $entityManager,
+                $repository,
+                new \Zend_Form(),
+                '/admin/event'
+        );
+
+        $service->delete();
     }
 }

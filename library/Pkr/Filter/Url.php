@@ -9,7 +9,7 @@ class Pkr_Filter_Url implements \Zend_Filter_Interface
 {
     public function filter($value)
     {
-        $value = strtolower($value);
+        $value = mb_strtolower($value, 'utf-8');
 
         $replace = array (
                 ' ' => '-',

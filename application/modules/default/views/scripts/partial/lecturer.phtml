@@ -1,0 +1,20 @@
+<article>
+    <a
+        href="/lecturer/<?php echo $this->item->url; ?>"
+        title="<?php echo $this->escape($this->item->title) . ' ' . $this->escape($this->item->firstname) . ' ' . $this->escape($this->item->lastname); ?>"
+    >
+        <h2>
+            <?php echo $this->escape($this->item->title); ?>
+            <?php echo $this->escape($this->item->firstname); ?>
+            <?php echo $this->escape($this->item->lastname); ?>
+        </h2>
+        <?php if ($this->item->image) { ?>
+            <img
+                alt="Foto von <?php echo $this->escape($this->item->title) . ' ' . $this->escape($this->item->firstname) . ' ' . $this->escape($this->item->lastname); ?>"
+                src="/thumb_<?php echo $this->item->image->id; ?>_ffp_90x120.jpg"
+            />
+        <?php } ?>
+        <p><b><?php echo $this->escape($this->item->subject); ?></b></p>
+        <?php echo $this->markdown($this->truncate($this->escape($this->item->content), 300)); ?>
+    </a>
+</article>

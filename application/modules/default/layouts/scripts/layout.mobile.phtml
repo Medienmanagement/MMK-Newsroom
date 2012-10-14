@@ -3,7 +3,7 @@
 <head>
     <meta charset="<?php echo $this->getEncoding(); ?>">
     <!-- <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $this->getEncoding(); ?>"></meta> -->
-    
+
     <?php echo $this->headTitle(); ?>
 
     <?php echo $this->headMeta() ?>
@@ -21,7 +21,7 @@
 					<img id="logo" src="/media/img/logo.png">
 				</a>
 			</li>
-			<li>	
+			<li>
             	<a href="/news" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/news') === 0 ? 'active' : ''; ?>">
                 	News
             	</a>
@@ -32,17 +32,27 @@
             	</a>
 			</li>
 			<li>
+            	<a href="/project" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/project') === 0 ? 'active' : ''; ?>">
+                	Projekte
+            	</a>
+			</li>
+			<li>
+            	<a href="/lecturer" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/lecturer') === 0 ? 'active' : ''; ?>">
+                	Dozenten
+            	</a>
+			</li>
+			<li>
             	<a href="/press" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/press') === 0 ? 'active' : ''; ?>">
                 	Presse
             	</a>
 			</li>
 		</ul>
 	</nav>
-	
+
 	<div id="content">
     	<?php echo $this->layout()->content; ?>
 	</div>
-    
+
     <footer>
         <p>
             <a href="/rss">RSS-Feed</a> |

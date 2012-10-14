@@ -72,6 +72,18 @@ class NewsroomEntityCommentProxy extends \Newsroom\Entity\Comment implements \Do
         return parent::setNews($news);
     }
 
+    public function getProject()
+    {
+        $this->__load();
+        return parent::getProject();
+    }
+
+    public function setProject($project)
+    {
+        $this->__load();
+        return parent::setProject($project);
+    }
+
     public function getName()
     {
         $this->__load();
@@ -132,6 +144,18 @@ class NewsroomEntityCommentProxy extends \Newsroom\Entity\Comment implements \Do
         return parent::__set($name, $value);
     }
 
+    public function __isset($name)
+    {
+        $this->__load();
+        return parent::__isset($name);
+    }
+
+    public function __unset($name)
+    {
+        $this->__load();
+        return parent::__unset($name);
+    }
+
     public function setFromArray(array $values)
     {
         $this->__load();
@@ -147,7 +171,7 @@ class NewsroomEntityCommentProxy extends \Newsroom\Entity\Comment implements \Do
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'event', 'news', 'name', 'email', 'content', 'create');
+        return array('__isInitialized__', 'id', 'event', 'news', 'project', 'name', 'email', 'content', 'create');
     }
 
     public function __clone()

@@ -1,0 +1,15 @@
+<h2>Projekte</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Überschrift</th>
+            <th>Autor</th>
+            <th>Veröffentlichung</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php echo $this->partialLoop('project/index-row.phtml', $this->objects); ?>
+    </tbody>
+</table>

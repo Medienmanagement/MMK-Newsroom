@@ -36,6 +36,12 @@ class Comment extends Newsroom\EntityAbstract
     protected $news;
 
     /**
+     * @ManyToOne(targetEntity="Project", inversedBy="comments")
+     * @JoinColumn(name="project_id", referencedColumnName="project_id")
+     */
+    protected $project;
+
+    /**
      * @Column(type="string", name="comment_name", length=30)
      */
     protected $name;
@@ -88,6 +94,16 @@ class Comment extends Newsroom\EntityAbstract
     public function setNews($news)
     {
         $this->news = $news;
+    }
+
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    public function setProject($project)
+    {
+        $this->project = $project;
     }
 
     public function getName()

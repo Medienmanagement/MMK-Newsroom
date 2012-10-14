@@ -1,6 +1,6 @@
 <section id="news" class="overview">
     <?php
-        foreach ($this->news as $news)
+        foreach ($this->paginator as $news)
         {
             echo $this->partial(
                 'partial/news.phtml',
@@ -9,5 +9,11 @@
                 )
             );
         }
+
+        echo $this->paginationControl(
+                $this->paginator,
+                'Sliding',
+                'partial/pagination.phtml'
+        );
     ?>
 </section>

@@ -5,7 +5,7 @@
  */
 
 $(document).ready(function() {
-    $('a:not([href^="/"])').attr('target', '_blank');
+    $('a:not([href^="/admin"]):not([href^="/logout"])').attr('target', '_blank');
 
     $('a.confirm').click(function (event) {
         event.stopPropagation();

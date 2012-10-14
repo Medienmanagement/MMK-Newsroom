@@ -1,9 +1,18 @@
 
+SetEnv MAGIC /usr/share/file/magic.mgc
+
+
 RewriteEngine On
 RewriteBase /
 
+
+RewriteCond %{HTTP_HOST} ^dev\.newsroom\.medienmanagement\.info$ [NC]
+RewriteRule ^ - [E=APPLICATION_ENV:staging]
+
 RewriteCond %{HTTP_HOST} ^([^.]+)\.newsroom\.medienmanagement\.info$ [NC]
+RewriteCond %{HTTP_HOST} !^dev\.newsroom\.medienmanagement\.info$ [NC]
 RewriteRule ^(.*)$ http://newsroom.medienmanagement.info/$1 [R=301,L]
+
 
 RewriteRule ^thumb_(.*)_(.*)_(.*)x(.*)\.(jpg|jpeg|png|gif)$ thumb.php?id=$1&method=$2&width=$3&height=$4 [NC,L]
 

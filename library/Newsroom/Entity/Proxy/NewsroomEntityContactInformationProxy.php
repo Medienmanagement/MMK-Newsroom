@@ -108,6 +108,18 @@ class NewsroomEntityContactInformationProxy extends \Newsroom\Entity\ContactInfo
         return parent::setFax($fax);
     }
 
+    public function getOrganization()
+    {
+        $this->__load();
+        return parent::getOrganization();
+    }
+
+    public function setOrganization($organization)
+    {
+        $this->__load();
+        return parent::setOrganization($organization);
+    }
+
     public function getStreet()
     {
         $this->__load();
@@ -204,6 +216,18 @@ class NewsroomEntityContactInformationProxy extends \Newsroom\Entity\ContactInfo
         return parent::__set($name, $value);
     }
 
+    public function __isset($name)
+    {
+        $this->__load();
+        return parent::__isset($name);
+    }
+
+    public function __unset($name)
+    {
+        $this->__load();
+        return parent::__unset($name);
+    }
+
     public function setFromArray(array $values)
     {
         $this->__load();
@@ -219,7 +243,7 @@ class NewsroomEntityContactInformationProxy extends \Newsroom\Entity\ContactInfo
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'email', 'title', 'firstname', 'lastname', 'phone', 'fax', 'street', 'zipcode', 'city', 'website', 'xing', 'facebook', 'image');
+        return array('__isInitialized__', 'email', 'title', 'firstname', 'lastname', 'phone', 'fax', 'organization', 'street', 'zipcode', 'city', 'website', 'xing', 'facebook', 'image');
     }
 
     public function __clone()

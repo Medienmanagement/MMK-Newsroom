@@ -55,5 +55,8 @@ return array (
         '//media/css/global/form.css',
         '//media/css/global/form_edit.css',
         '//media/css/global/print.css'
+    ),
+    'default-ie7-css' => array (
+        '//media/css/global/ie7.css'
     )
 );

@@ -5,48 +5,40 @@
  * @license     please view LICENSE file
  */
 
-class Admin_TagController
-    extends \Zend_Controller_Action
-    implements \Controller_Action_InterfaceForm, \Controller_Action_InterfaceRedirect
+class Admin_TagController extends \Zend_Controller_Action
 {
-    public function getForm()
-    {
-        $configForm = $this->getInvokeArg('bootstrap')->getResource('configForm');
-
-        return new \Zend_Form($configForm->tag);
-    }
-
-    public function getRedirect()
-    {
-        return '/admin/tag';
-    }
-
-    public function getRepository()
-    {
-        return $this->_helper->entityManager()->getRepository('\Newsroom\Entity\Tag');
-    }
-
     public function init()
     {
+        $entityManager = $this->_helper->entityManager();
+        $repository = $entityManager->getRepository('\Newsroom\Entity\Tag');
+        $configForm = $this->getInvokeArg('bootstrap')->getResource('configForm');
+
+        $this->service = new \Controller_Service_Crud(
+                $this,
+                $entityManager,
+                $repository,
+                new \Zend_Form($configForm->tag),
+                '/admin/tag'
+        );
     }
 
     public function indexAction()
     {
-        \Controller_Action_Factory::get('list', $this)->execute();
+        $this->service->get();
     }
 
     public function addAction()
     {
-        \Controller_Action_Factory::get('add', $this)->execute();
+        $this->service->add();
     }
 
     public function editAction()
     {
-        \Controller_Action_Factory::get('edit', $this)->execute();
+        $this->service->edit();
     }
 
     public function deleteAction()
     {
-        \Controller_Action_Factory::get('delete', $this)->execute();
+        $this->service->delete();
     }
 }

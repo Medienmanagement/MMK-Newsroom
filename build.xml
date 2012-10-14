@@ -4,6 +4,15 @@
     default="update"
     basedir="."
 >
+    <property name="application.environment" value="development"/>
+    <property name="staging.host" value="dev.newsroom.medienmanagement.info"/>
+    <property name="staging.user" value="pkromeyer"/>
+    <property name="staging.keyfile" value="${user.home}/.ssh/dhbw_id_rsa"/>
+    <property name="staging.path" value="/home/pkromeyer/var/www/newsroom.medienmanagement.info/dev"/>
+    <property name="production.host" value="newsroom.medienmanagement.info"/>
+    <property name="production.user" value="pkromeyer"/>
+    <property name="production.keyfile" value="${user.home}/.ssh/dhbw_id_rsa"/>
+    <property name="production.path" value="/home/pkromeyer/var/www/newsroom.medienmanagement.info"/>
     <target
         name="cleanup"
     >
@@ -27,15 +36,15 @@
     >
         <exec dir="${basedir}/bin" executable="php">
             <arg line="doctrine.php orm:schema-tool:drop --force"/>
-            <env key="APPLICATION_ENV" value="development"/>
+            <env key="APPLICATION_ENV" value="${application.environment}"/>
         </exec>
         <exec dir="${basedir}/bin" executable="php">
             <arg line="doctrine.php orm:schema-tool:create"/>
-            <env key="APPLICATION_ENV" value="development"/>
+            <env key="APPLICATION_ENV" value="${application.environment}"/>
         </exec>
         <exec dir="${basedir}/bin" executable="php">
-            <arg line="doctrine.php dbal:import ../database/init.sql"/>
-            <env key="APPLICATION_ENV" value="development"/>
+            <arg line="doctrine.php dbal:import '${basedir}/database/init.sql'"/>
+            <env key="APPLICATION_ENV" value="${application.environment}"/>
         </exec>
     </target>
     <target
@@ -43,7 +52,7 @@
     >
         <exec dir="${basedir}/bin" executable="php">
             <arg line="doctrine.php orm:schema-tool:update --force"/>
-            <env key="APPLICATION_ENV" value="development"/>
+            <env key="APPLICATION_ENV" value="${application.environment}"/>
         </exec>
     </target>
     <target
@@ -59,4 +68,54 @@
         name="update"
         depends="cleanup,permissions,db-update,log"
     />
+    <target
+        name="staging"
+    >
+        <exec dir="${basedir}" executable="rsync">
+            <arg line="-e 'ssh -i ${staging.keyfile}' -rlvK --delete"/>
+            <arg line="--exclude=.DS_Store"/>
+            <arg line="'${basedir}/application' '${basedir}/bin' '${basedir}/build.xml' '${basedir}/database' '${basedir}/library' '${basedir}/public'"/>
+            <arg line="${staging.user}@${staging.host}:${staging.path}"/>
+        </exec>
+        <sshexec
+            host="${staging.host}"
+            username="${staging.user}"
+            keyfile="${staging.keyfile}"
+            command="ls -ail ${staging.path}"
+        />
+        <sshexec
+            host="${staging.host}"
+            username="${staging.user}"
+            keyfile="${staging.keyfile}"
+            command="ant -f ${staging.path}/build.xml -Dapplication.environment=staging update"
+        />
+        <sshexec
+            host="${staging.host}"
+            username="${staging.user}"
+            keyfile="${staging.keyfile}"
+            command="htpasswd -b -c ${staging.path}/public/.htpasswd staging EnteEnteEnteEnte; echo -e '\nAuthName &quot;Restricted Area&quot;\nAuthType Basic\nAuthUserFile ${staging.path}/public/.htpasswd\nrequire valid-user\n' >> ${staging.path}/public/.htaccess"
+        />
+    </target>
+    <target
+        name="production"
+    >
+        <exec dir="${basedir}" executable="rsync">
+            <arg line="-e 'ssh -i ${production.keyfile}' -rlvK --delete"/>
+            <arg line="--exclude=.DS_Store --exclude=google8883c9ff7c631e2d.html"/>
+            <arg line="'${basedir}/application' '${basedir}/bin' '${basedir}/build.xml' '${basedir}/database' '${basedir}/library' '${basedir}/public'"/>
+            <arg line="${production.user}@${production.host}:${production.path}"/>
+        </exec>
+        <sshexec
+            host="${production.host}"
+            username="${production.user}"
+            keyfile="${production.keyfile}"
+            command="ls -ail ${production.path}"
+        />
+        <sshexec
+            host="${production.host}"
+            username="${production.user}"
+            keyfile="${production.keyfile}"
+            command="ant -f ${production.path}/build.xml -Dapplication.environment=production update"
+        />
+    </target>
 </project>

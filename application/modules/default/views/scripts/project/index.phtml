@@ -1,0 +1,19 @@
+<section id="project" class="overview">
+    <?php
+        foreach ($this->paginator as $project)
+        {
+            echo $this->partial(
+                'partial/project.phtml',
+                array (
+                    'item'  => $project
+                )
+            );
+        }
+
+        echo $this->paginationControl(
+                $this->paginator,
+                'Sliding',
+                'partial/pagination.phtml'
+        );
+    ?>
+</section>

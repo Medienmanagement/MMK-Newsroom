@@ -5,48 +5,40 @@
  * @license     please view LICENSE file
  */
 
-class Admin_UserController
-    extends \Zend_Controller_Action
-    implements \Controller_Action_InterfaceForm, \Controller_Action_InterfaceRedirect
+class Admin_UserController extends \Zend_Controller_Action
 {
     public function init()
     {
-    }
-
-    public function getForm()
-    {
+        $entityManager = $this->_helper->entityManager();
+        $repository = $entityManager->getRepository('\Newsroom\Entity\User');
         $configForm = $this->getInvokeArg('bootstrap')->getResource('configForm');
 
-        return new \Zend_Form($configForm->user);
-    }
-
-    public function getRedirect()
-    {
-        return '/admin/user';
-    }
-
-    public function getRepository()
-    {
-        return $this->_helper->entityManager()->getRepository('\Newsroom\Entity\User');
+        $this->service = new \Controller_Service_CrudUser(
+                $this,
+                $entityManager,
+                $repository,
+                new \Zend_Form($configForm->user),
+                '/admin/user'
+        );
     }
 
     public function indexAction()
     {
-        \Controller_Action_Factory::get('list', $this)->execute();
+        $this->service->get();
     }
 
     public function addAction()
     {
-        \Controller_Action_Factory::get('addUser', $this)->execute();
+        $this->service->add();
     }
 
     public function editAction()
     {
-        \Controller_Action_Factory::get('editUser', $this)->execute();
+        $this->service->edit();
     }
 
     public function deleteAction()
     {
-        \Controller_Action_Factory::get('delete', $this)->execute();
+        $this->service->delete();
     }
 }

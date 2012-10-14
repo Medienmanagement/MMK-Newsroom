@@ -1,6 +1,6 @@
 <section id="events" class="overview">
     <?php
-        foreach ($this->events as $event)
+        foreach ($this->paginator as $event)
         {
             echo $this->partial(
                 'partial/event.phtml',
@@ -9,5 +9,11 @@
                 )
             );
         }
+
+        echo $this->paginationControl(
+                $this->paginator,
+                'Sliding',
+                'partial/pagination.phtml'
+        );
     ?>
 </section>

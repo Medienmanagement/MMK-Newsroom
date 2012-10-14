@@ -7,62 +7,74 @@
     <?php echo $this->headTitle(); ?>
 
     <?php echo $this->headMeta() ?>
-    <meta name="author" content="Mirko Bitsch, Patrick Kromeyer, Anne Grubert, Simon Greiner">
 
     <link rel="stylesheet" type="text/css" media="all" href="/min/g=default-css" />
+    <!--[if IE 7]>
+        <link rel="stylesheet" type="text/css" media="all" href="/min/g=default-ie7-css" />
+    <![endif]-->
+
     <script type="text/javascript" src="/min/g=default-js"></script>
+    <!--[if lt IE 9]>
+        <script src="/media/js/global/html5.js"></script>
+    <![endif]-->
 </head>
 <body>
     <div id="wrapper">
-	<header>
-		<img id="logodhbw" src="/media/img/signet.png">
-		&nbsp;
-		<img id="logommk" src="/media/img/logo.png">
-	</header>
-	<nav>
-		<ul>
-            <a href="/">
-                <li>Start</li>
-            </a>
-            <a href="/news" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/news') === 0 ? 'active' : ''; ?>">
-                <li>News</li>
-            </a>
-            <a href="/event" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/event') === 0 ? 'active' : ''; ?>">
-                <li>Events</li>
-            </a>
-            <a href="/press" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/press') === 0 ? 'active' : ''; ?>">
-                <li>Presse</li>
-            </a>
-		</ul>
-	</nav>
-	<aside id="left">
-		<?php
-            echo $this->partial('partial/blogs_networks.phtml');
-            echo $this->partial('partial/multimedia_bookmarks.phtml');
-            echo $this->partial('partial/subscription.phtml');
-            echo $this->partial('partial/contact-information.phtml');
-        ?>
-	</aside>
-	<div id="content">
-    	<?php echo $this->layout()->content; ?>
-	</div>
-    <aside id="right">
-        <?php
-            echo $this->partial('partial/twitter.phtml');
-            echo $this->partial('partial/youtube.phtml');
-            echo $this->partial('partial/delicious.phtml');
-            echo $this->partial('partial/subscription.phtml');
-			echo $this->partial('partial/contact-information.phtml');
-        ?>
-    </aside>
-    <hr id="clear">
-    <footer>
-        <p>
-            <a href="/rss">RSS-Feed</a> |
-            <a href="/innovator">Die Erfinder</a>
-            <span class="right"><a href="/legal">Impressum</a></span>
-        </p>
-    </footer>
+        <header>
+            <img id="logodhbw" src="/media/img/signet.png">
+            &nbsp;
+            <img id="logommk" src="/media/img/logo.png">
+        </header>
+        <nav>
+            <ul>
+                <a href="/">
+                    <li>Start</li>
+                </a>
+                <a href="/news" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/news') === 0 ? 'active' : ''; ?>">
+                    <li>News</li>
+                </a>
+                <a href="/event" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/event') === 0 ? 'active' : ''; ?>">
+                    <li>Events</li>
+                </a>
+                <a href="/project" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/project') === 0 ? 'active' : ''; ?>">
+                    <li>Projekte</li>
+                </a>
+                <a href="/lecturer" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/lecturer') === 0 ? 'active' : ''; ?>">
+                    <li>Dozenten</li>
+                </a>
+                <a href="/press" class="<?php echo strpos($_SERVER['REQUEST_URI'], '/press') === 0 ? 'active' : ''; ?>">
+                    <li>Presse</li>
+                </a>
+            </ul>
+        </nav>
+        <aside id="left">
+            <?php
+                echo $this->partial('partial/blogs_networks.phtml');
+                echo $this->partial('partial/multimedia_bookmarks.phtml');
+                echo $this->partial('partial/subscription.phtml');
+                echo $this->partial('partial/contact-information.phtml');
+            ?>
+        </aside>
+        <div id="content">
+            <?php echo $this->layout()->content; ?>
+        </div>
+        <aside id="right">
+            <?php
+                echo $this->partial('partial/twitter.phtml');
+                echo $this->partial('partial/youtube.phtml');
+                echo $this->partial('partial/delicious.phtml');
+                echo $this->partial('partial/subscription.phtml');
+                echo $this->partial('partial/contact-information.phtml');
+            ?>
+        </aside>
+        <hr id="clear">
+        <footer>
+            <p>
+                <a href="/rss">RSS-Feed</a> |
+                <a href="/innovator">Die Erfinder</a>
+                <span class="right"><a href="/legal">Impressum</a></span>
+            </p>
+        </footer>
     </div>
 
     <?php

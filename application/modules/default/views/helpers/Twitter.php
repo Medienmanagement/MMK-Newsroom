@@ -19,8 +19,10 @@ class Zend_View_Helper_Twitter extends \Pkr_View_Helper_ApiAbstract
         if ($entity && $entity->username && $entity->accessToken)
         {
             $this->_twitter = new \Zend_Service_Twitter(array(
-                                                'username'    => $entity->username,
-                                                'accessToken' => unserialize($entity->accessToken)
+                    'username'          => $entity->username,
+                    'consumerKey'       => $entity->consumerKey,
+                    'consumerSecret'    => $entity->consumerSecret,
+                    'accessToken'       => unserialize($entity->accessToken)
             ));
         }
     }

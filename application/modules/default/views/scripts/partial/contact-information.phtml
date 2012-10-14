@@ -6,71 +6,71 @@
     <section class="contact start">
         <h1>Kontakt</h1>
         <div
-            id="hcard-<?php echo $contactInfomation->firstname; ?>-<?php echo $contactInfomation->lastname; ?>"
+            id="hcard-<?php echo $this->escape($contactInfomation->firstname); ?>-<?php echo $this->escape($contactInfomation->lastname); ?>"
             class="vcard box"
         >
             <?php if (!empty ($contactInfomation->image)) { ?>
                 <img
                     style="float:left"
                     src="/thumb_<?php echo $contactInfomation->image->id; ?>_ffp_90x120.jpg"
-                    alt="Foto von <?php echo $contactInfomation->title; ?> <?php echo $contactInfomation->firstname; ?> <?php echo $contactInfomation->lastname; ?>"
+                    alt="Foto von <?php echo $this->escape($contactInfomation->title); ?> <?php echo $this->escape($contactInfomation->firstname); ?> <?php echo $this->escape($contactInfomation->lastname); ?>"
                     class="photo"
                 />
             <?php } ?>
             <?php if (!empty ($contactInfomation->website)) { ?>
                 <a
                     class="url fn"
-                    href="<?php echo $contactInfomation->website; ?>"
+                    href="<?php echo $this->escape($contactInfomation->website); ?>"
                 >
-                    <?php echo $contactInfomation->title; ?>
-                    <?php echo $contactInfomation->firstname; ?>
-                    <?php echo $contactInfomation->lastname; ?>
+                    <?php echo $this->escape($contactInfomation->title); ?>
+                    <?php echo $this->escape($contactInfomation->firstname); ?>
+                    <?php echo $this->escape($contactInfomation->lastname); ?>
                 </a>
             <?php } else { ?>
                 <span
                     class="fn"
                 >
-                    <?php echo $contactInfomation->title; ?>
-                    <?php echo $contactInfomation->firstname; ?>
-                    <?php echo $contactInfomation->lastname; ?>
+                    <?php echo $this->escape($contactInfomation->title); ?>
+                    <?php echo $this->escape($contactInfomation->firstname); ?>
+                    <?php echo $this->escape($contactInfomation->lastname); ?>
                 </span>
             <?php } ?>
             <?php if (!empty ($contactInfomation->organization)) { ?>
-                <div class="org"><?php echo $contactInfomation->organization; ?></div>
+                <div class="org"><?php echo $this->escape($contactInfomation->organization); ?></div>
             <?php } ?>
             <div class="adr">
                 <?php if (!empty ($contactInfomation->street)) { ?>
                     <div class="street-address">
-                        <?php echo $contactInfomation->street; ?>
+                        <?php echo $this->escape($contactInfomation->street); ?>
                     </div>
                 <?php } ?>
                 <?php if (!empty ($contactInfomation->city)) { ?>
                     <span class="locality">
-                        <?php echo $contactInfomation->city; ?>
+                        <?php echo $this->escape($contactInfomation->city); ?>
                     </span>,
                 <?php } ?>
                 <?php if (!empty ($contactInfomation->zipcode)) { ?>
                     <span class="postal-code">
-                        <?php echo $contactInfomation->zipcode; ?>
+                        <?php echo $this->escape($contactInfomation->zipcode); ?>
                     </span>
                 <?php } ?>
             </div>
             <div class="mail">
-                via <a href="mailto:<?php echo $contactInfomation->email; ?>">E-Mail</a>
+                via <a href="mailto:<?php echo $this->escape($contactInfomation->email); ?>">E-Mail</a>
             </div>
             <?php if (!empty ($contactInfomation->facebook)) { ?>
                 <div class="facebook">
-                    via <a href="<?php echo $contactInfomation->facebook; ?>">facebook</a>
+                    via <a href="<?php echo $this->escape($contactInfomation->facebook); ?>">facebook</a>
                 </div>
             <?php } ?>
             <?php if (!empty ($contactInfomation->xing)) { ?>
                 <div class="xing">
-                    via <a href="<?php echo $contactInfomation->xing; ?>">xing</a>
+                    via <a href="<?php echo $this->escape($contactInfomation->xing); ?>">xing</a>
                 </div>
             <?php } ?>
             <?php if (!empty ($contactInfomation->phone)) { ?>
                 <div class="tel">
-                    <?php echo $contactInfomation->phone; ?>
+                    <?php echo $this->escape($contactInfomation->phone); ?>
                 </div>
             <?php } ?>
         </div>

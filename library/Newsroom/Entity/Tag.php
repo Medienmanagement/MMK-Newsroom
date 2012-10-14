@@ -39,6 +39,11 @@ class Tag extends Newsroom\EntityAbstract
     protected $events;
 
     /**
+     * @ManyToMany(targetEntity="Project", mappedBy="tags")
+     */
+    protected $projects;
+
+    /**
      * @ManyToMany(targetEntity="Announcement", mappedBy="tags")
      */
     protected $announcements;
@@ -76,6 +81,11 @@ class Tag extends Newsroom\EntityAbstract
     public function getEvents()
     {
         return $this->events;
+    }
+
+    public function getProjects()
+    {
+        return $this->projects;
     }
 
     public function getAnnouncements()

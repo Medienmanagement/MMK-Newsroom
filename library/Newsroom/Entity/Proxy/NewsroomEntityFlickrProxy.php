@@ -72,6 +72,18 @@ class NewsroomEntityFlickrProxy extends \Newsroom\Entity\Flickr implements \Doct
         return parent::__set($name, $value);
     }
 
+    public function __isset($name)
+    {
+        $this->__load();
+        return parent::__isset($name);
+    }
+
+    public function __unset($name)
+    {
+        $this->__load();
+        return parent::__unset($name);
+    }
+
     public function setFromArray(array $values)
     {
         $this->__load();

@@ -1,0 +1,34 @@
+<tr>
+    <td><?php echo $this->escape($this->object->headline); ?></td>
+    <td>
+        <?php echo $this->escape($this->object->user->title); ?>
+        <?php echo $this->escape($this->object->user->firstname); ?>
+        <?php echo $this->escape($this->object->user->lastname); ?>
+    </td>
+    <td><?php echo $this->object->publish; ?></td>
+    <td>
+        <ul>
+            <li>
+                <a
+                    href="/admin/project/comment/<?php echo $this->object->id; ?>"
+                >Kommentare</a>
+            </li>
+            <li>
+                <a
+                    href="/project/<?php echo $this->object->url; ?>"
+                >Vorschau</a>
+            </li>
+            <li>
+                <a
+                    href="/admin/project/edit/<?php echo $this->object->id; ?>"
+                >Bearbeiten</a>
+            </li>
+            <li>
+                <a
+                    class="confirm"
+                    href="/admin/project/delete/<?php echo $this->object->id; ?>"
+                >Löschen</a>
+            </li>
+        </ul>
+    </td>
+</tr>

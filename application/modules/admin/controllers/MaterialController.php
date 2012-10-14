@@ -5,48 +5,40 @@
  * @license     please view LICENSE file
  */
 
-class Admin_MaterialController
-    extends \Zend_Controller_Action
-    implements \Controller_Action_InterfaceForm, \Controller_Action_InterfaceRedirect
+class Admin_MaterialController extends \Zend_Controller_Action
 {
     public function init()
     {
-    }
-
-    public function getForm()
-    {
+        $entityManager = $this->_helper->entityManager();
+        $repository = $entityManager->getRepository('\Newsroom\Entity\Material');
         $configForm = $this->getInvokeArg('bootstrap')->getResource('configForm');
 
-        return new Form_TagForm($configForm->material);
-    }
-
-    public function getRedirect()
-    {
-        return '/admin/material';
-    }
-
-    public function getRepository()
-    {
-        return $this->_helper->entityManager()->getRepository('\Newsroom\Entity\Material');
+        $this->service = new \Controller_Service_CrudPress(
+                $this,
+                $entityManager,
+                $repository,
+                new \Form_TagForm($configForm->material),
+                '/admin/material'
+        );
     }
 
     public function indexAction()
     {
-        \Controller_Action_Factory::get('list', $this)->execute();
+        $this->service->get();
     }
 
     public function addAction()
     {
-        \Controller_Action_Factory::get('add', $this)->execute();
+        $this->service->add();
     }
 
     public function editAction()
     {
-        \Controller_Action_Factory::get('editPress', $this)->execute();
+        $this->service->edit();
     }
 
     public function deleteAction()
     {
-        \Controller_Action_Factory::get('delete', $this)->execute();
+        $this->service->delete();
     }
 }

@@ -66,15 +66,12 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
                     'form' => array(
                         'path' => 'forms',
                         'namespace' => 'Form_'),
-                    'actions' => array(
-                        'path' => 'controllers/actions',
-                        'namespace' => 'Controller_Action_'),
                     'plugin' => array(
                         'path' => 'controllers/plugins',
-                        'namespace' => 'Controller_Plugin_')
-                    //'validators' => array(
-                    //    'path' => 'validators/',
-                    //    'namespace' => 'Validate_')
+                        'namespace' => 'Controller_Plugin_'),
+                    'service' => array(
+                        'path' => 'controllers/services',
+                        'namespace' => 'Controller_Service_')
                 )
             )
         );
@@ -86,9 +83,15 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
 
     protected function _initCache()
     {
+        $this->bootstrap('autoloader');
+
         $config = $this->getOption('configuration');
 
-        return \Zend_Cache::factory('Core', 'File', $config['cache']['frontend'], $config['cache']['backend']);
+        $cache = \Zend_Cache::factory('Core', 'File', $config['cache']['frontend'], $config['cache']['backend']);
+
+        \Pkr_Service_Abstract::setCache($cache);
+
+        return $cache;
     }
 
     protected function _initConfigForm()
@@ -153,6 +156,7 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
 
     protected function _initLog()
     {
+        $this->bootstrap('autoloader');
         $this->bootstrap('mail');
 
         $config = $this->getOption('configuration');
@@ -168,8 +172,8 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
         if (APPLICATION_ENV !== 'development')
         {
             $mail = new \Zend_Mail('UTF-8');
-            $mail->setSubject($config['log']['mail']['subject'])
-                 ->setFrom($config['log']['mail']['from'])
+            $mail->setFromToDefaultFrom()
+                 ->setSubject($config['log']['mail']['subject'])
                  ->addTo($config['log']['mail']['to']);
 
             $writer = new \Zend_Log_Writer_Mail($mail);
@@ -179,6 +183,8 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
 
             $log->addWriter($writer);
         }
+
+        \Pkr_Service_Abstract::setLog($log);
 
         return $log;
     }
@@ -197,9 +203,6 @@ class Bootstrap extends \Zend_Application_Bootstrap_Bootstrap
     protected function _initSession()
     {
         $config = $this->getOption('configuration');
-
-        // TODO: write Session_SaveHandler_Doctrine
-        // $this->bootstrap('doctrine');
 
         \Zend_Session::setOptions($config['session']);
         \Zend_Session::start();

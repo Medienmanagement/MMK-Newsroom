@@ -5,26 +5,44 @@
  * @license     please view LICENSE file
  */
 
-class Admin_TwitterController
-    extends \Zend_Controller_Action
-    implements \Controller_Action_InterfaceRepository, \Controller_Action_InterfaceRedirect
+class Admin_TwitterController extends \Zend_Controller_Action
 {
-    public function getRedirect()
+    /**
+     * @var type \Doctrine\ORM\EntityRepository
+     */
+    protected $_repository = null;
+
+    protected function _getRedirect()
     {
         return '/admin/twitter';
     }
 
-    public function getRepository()
+    protected function _getRepository()
     {
-        return $this->_helper->entityManager()->getRepository('\Newsroom\Entity\Twitter');
+        if (null === $this->_repository)
+        {
+            $this->_repository = $this->_helper->entityManager()->getRepository('\Newsroom\Entity\Twitter');
+        }
+
+        return $this->_repository;
     }
 
     public function init()
     {
+        $configForm = $this->getInvokeArg('bootstrap')->getResource('configForm');
+
+        $this->service = new \Controller_Service_SingleCrud(
+                $this,
+                $this->_helper->entityManager(),
+                $this->_getRepository(),
+                new \Zend_Form($configForm->twitterApi),
+                $this->_getRedirect()
+        );
     }
 
     public function indexAction()
     {
+        $entityManager = $this->_helper->entityManager();
         $session = new \Zend_Session_Namespace('twitter', true);
 
         $oauthConfig = array(
@@ -39,9 +57,10 @@ class Admin_TwitterController
         {
             if ($twitterApiForm->isValid($_POST))
             {
+                $entityManager->getConnection()->beginTransaction();
                 try
                 {
-                    $this->getRepository()->saveEntity($twitterApiForm->getValues());
+                    $this->_getRepository()->saveEntity($twitterApiForm->getValues());
 
                     $oauthConfig['consumerKey'] = $twitterApiForm->getValue('consumerKey');
                     $oauthConfig['consumerSecret'] = $twitterApiForm->getValue('consumerSecret');
@@ -49,10 +68,15 @@ class Admin_TwitterController
                     $consumer = new \Zend_Oauth_Consumer($oauthConfig);
                     $token = $consumer->getRequestToken();
                     $session->twitterRequestToken = serialize($token);
+
+                    $entityManager->getConnection()->commit();
+
                     $consumer->redirect();
                 }
                 catch (\Exception $e)
                 {
+                    $entityManager->getConnection()->rollback();
+
                     $log = $this->getInvokeArg('bootstrap')->log;
                     $log->log(
                             $e->getMessage(),
@@ -66,9 +90,10 @@ class Admin_TwitterController
         }
         else
         {
+            $entityManager->getConnection()->beginTransaction();
             try
             {
-                $entity = $this->getRepository()->fetchEntity();
+                $entity = $this->_getRepository()->fetchEntity();
 
                 if ($entity)
                 {
@@ -83,20 +108,24 @@ class Admin_TwitterController
                             unserialize($session->twitterRequestToken)
                         );
 
-                        $this->getRepository()->saveEntity(
+                        $this->_getRepository()->saveEntity(
                             array('accessToken' => serialize($token))
                         );
 
                         unset($session->twitterRequestToken);
 
+                        $entityManager->getConnection()->commit();
+
                         $this->_helper->systemMessages('notice', 'Speichervorgang erfolgreich');
-                        $this->_redirect($this->getRedirect());
+                        $this->_redirect($this->_getRedirect());
                     }
                     $twitterApiForm->populate($entity->toArray());
                 }
             }
             catch (\Exception $e)
             {
+                $entityManager->getConnection()->rollback();
+
                 $log = $this->getInvokeArg('bootstrap')->log;
                 $log->log(
                         $e->getMessage(),
@@ -108,12 +137,12 @@ class Admin_TwitterController
             }
         }
 
-        $twitterApiForm->setAction($this->getRedirect());
+        $twitterApiForm->setAction($this->_getRedirect());
         $this->view->form = $twitterApiForm;
     }
 
     public function deleteAction()
     {
-        \Controller_Action_Factory::get('singleDelete', $this)->execute();
+        $this->service->delete();
     }
 }

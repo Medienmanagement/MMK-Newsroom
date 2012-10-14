@@ -22,15 +22,16 @@ header {
 	-moz-box-shadow: -5px 2px 20px rgba(0, 0, 0, 0.6);
 	background-position: 170px 0;
 	display: block;
+    position: relative;
 }
 header img#logommk {
-	float: right;
-	clear: both;
+	position: absolute;
+    right: 0;
 }
 nav {
 	text-align: center;
 	height: 1.5833em;
-	border-bottom: 0.5em solid #ccc;
+	border-bottom: 0.5em solid #cccccc;
 	display: block;
 }
 nav ul {
@@ -261,10 +262,37 @@ section#materials.press.overview {
 news and events
 */
 section#events.overview article,
+section#lecturer.overview article,
+section#project.overview article,
 section#news.overview article {
-	margin-bottom:2em;
+	margin-bottom: 1em; 
+        overflow: hidden;
+}
+section#lecturer.overview article ul {
+    display: inline-block;
 }
 
+.infobox {
+    background-color: #CCC;
+    padding: 1px;
+    margin: 1em 0;
+    overflow: hidden;
+}
+.infobox p {
+    margin-bottom: 0.4em;
+}
+div#content img.persDetail,
+article.detail img.persDetail {
+    margin: 0 1em 0 0;
+}
+article.detail div.persDetail {
+    margin: 1em 0;
+}
+em {
+    font-weight: bold;
+    color: #001A7A;
+    font-style: normal;
+}
 
 /*
 inventors
@@ -306,10 +334,11 @@ hr#clear {
 footer {
 	height: 30px;
 	background-color: #ccc;
+    position: relative;
 }
 footer span.right {
-	float: right;
-	clear: both;
+    position: absolute;
+    right: 0;
 }
 
 
@@ -356,4 +385,20 @@ div#content section.social ul li {
 }
 div#content section.social li+li {
 	margin-top: 0.5em;
+}
+
+.pagination ul {
+    margin-left: 0;
+}
+.pagination ul li {
+    list-style: none;
+    display: inline-block;
+    margin-right: 1em;
+}
+.pagination ul li.disabled {
+    color: #999;
+}
+.pagination ul li.active {
+    color: black;
+    font-weight: bold;
 }

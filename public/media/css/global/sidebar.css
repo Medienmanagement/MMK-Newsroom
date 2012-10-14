@@ -12,13 +12,19 @@ section.subscription li.email {
 
 
 /* contact h-card */
+section.contact div.vcard {
+    overflow: hidden;
+}
+section.contact div.vcard img.photo {
+    margin-right: 1em;
+}
 section.contact .org,
 section.contact .email,
 section.contact .adr {
 	display: none;
 }
-section.contact div.mail, 
-section.contact div.facebook, 
+section.contact div.mail,
+section.contact div.facebook,
 section.contact div.xing,
 section.contact div.tel {
 	background-image: url("/media/img/sprites_button.png");

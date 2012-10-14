@@ -1,0 +1,39 @@
+<article id="lecturer" class="detail">
+    <h2>
+        <?php echo $this->escape($this->object->title); ?>
+        <?php echo $this->escape($this->object->firstname); ?>
+        <?php echo $this->escape($this->object->lastname); ?>
+    </h2>
+
+    <div class="infobox">
+        <?php if ($this->object->image) { ?>
+            <img
+                class="persDetail"
+                alt="Foto von <?php echo $this->escape($this->object->title) . ' ' . $this->escape($this->object->firstname) . ' ' . $this->escape($this->object->lastname); ?>"
+                src="/thumb_<?php echo $this->object->image->id; ?>_ffp_90x120.jpg"
+            />
+        <?php } ?>
+            <div class="persDetail">
+        <?php if (!empty ($this->object->email)) { ?>
+            <p><em>Email:</em> <?php echo $this->escape($this->object->email); ?></p>
+        <?php } ?>
+
+        <?php if (!empty ($this->object->website)) { ?>
+            <p><em>Webseite:</em> <?php echo $this->escape($this->object->website); ?></p>
+        <?php } ?>
+            <br />
+        <p><em>Fächer:</em> <?php echo $this->escape($this->object->subject); ?></p>
+            </div>
+    </div>
+
+    <?php echo $this->markdown($this->escape($this->object->content)); ?>
+
+    <?php
+        if (!empty ($this->object->interview))
+        {
+            echo $this->markdown($this->escape($this->object->interview));
+        }
+    ?>
+
+    <?php echo $this->partial('partial/addthis.phtml'); ?>
+</article>

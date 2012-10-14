@@ -5,33 +5,25 @@
  * @license     please view LICENSE file
  */
 
-class Admin_ContactInformationController
-    extends \Zend_Controller_Action
-    implements \Controller_Action_InterfaceForm, \Controller_Action_InterfaceRedirect
+class Admin_ContactInformationController extends \Zend_Controller_Action
 {
     public function init()
     {
-    }
-
-    public function getForm()
-    {
+        $entityManager = $this->_helper->entityManager();
+        $repository = $entityManager->getRepository('\Newsroom\Entity\ContactInformation');
         $configForm = $this->getInvokeArg('bootstrap')->getResource('configForm');
 
-        return new \Zend_Form($configForm->contactInformation);
-    }
-
-    public function getRedirect()
-    {
-        return '/admin/contact-information';
-    }
-
-    public function getRepository()
-    {
-        return $this->_helper->entityManager()->getRepository('\Newsroom\Entity\ContactInformation');
+        $this->service = new \Controller_Service_SingleCrudContactInformation(
+                $this,
+                $entityManager,
+                $repository,
+                new \Zend_Form($configForm->contactInformation),
+                '/admin/contact-information'
+        );
     }
 
     public function indexAction()
     {
-        \Controller_Action_Factory::get('singleEditContactInformation', $this)->execute();
+        $this->service->edit();
     }
 }

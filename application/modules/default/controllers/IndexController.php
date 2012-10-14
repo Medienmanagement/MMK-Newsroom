@@ -17,6 +17,14 @@ class Default_IndexController extends \Zend_Controller_Action
                                      ->entityManager()
                                      ->getRepository('\Newsroom\Entity\News');
 
+        $this->projectRepository = $this->_helper
+                                        ->entityManager()
+                                        ->getRepository('\Newsroom\Entity\Project');
+
+        $this->lecturerRepository = $this->_helper
+                                         ->entityManager()
+                                         ->getRepository('\Newsroom\Entity\Lecturer');
+
         $this->announcementRepository = $this->_helper
                                              ->entityManager()
                                              ->getRepository('\Newsroom\Entity\Announcement');
@@ -104,23 +112,39 @@ class Default_IndexController extends \Zend_Controller_Action
         $feed->setDescription($config['feed']['description']);
         $feed->setLink($this->serverUrl);
 
-        $items = array_merge(
-            $this->newsRepository->fetchEntities(6),
-            $this->eventRepository->fetchEntities(3)
+        $items = array_merge (
+                $this->newsRepository->fetchEntities(6),
+                $this->eventRepository->fetchEntities(3),
+                $this->projectRepository->fetchEntities(6),
+                $this->lecturerRepository->fetchEntities(6)
         );
 
         foreach ($items as $item)
         {
             $entry = $feed->createEntry();
-            $entry->setTitle($item->headline);
 
             if ($item instanceof \Newsroom\Entity\News)
             {
+                $entry->setTitle($item->headline);
                 $entry->setLink($this->serverUrl . '/news/' . $item->url);
             }
             else if ($item instanceof \Newsroom\Entity\Event)
             {
+                $entry->setTitle($item->headline);
                 $entry->setLink($this->serverUrl . '/event/' . $item->url);
+            }
+            else if ($item instanceof \Newsroom\Entity\Project)
+            {
+                $entry->setTitle($item->headline);
+                $entry->setLink($this->serverUrl . '/project/' . $item->url);
+            }
+            else if ($item instanceof \Newsroom\Entity\Lecturer)
+            {
+                $headline  = isset ($item->title) ? $item->title . ' ' : '';
+                $headline .= $item->firstname;
+                $headline .= ' ' . $item->lastname;
+                $entry->setTitle($headline);
+                $entry->setLink($this->serverUrl . '/lecturer/' . $item->url);
             }
 
             $author  = isset ($item->user->title) ? $item->user->title . ' ' : '';

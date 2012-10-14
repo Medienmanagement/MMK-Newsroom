@@ -72,6 +72,12 @@ class NewsroomEntityTagProxy extends \Newsroom\Entity\Tag implements \Doctrine\O
         return parent::getEvents();
     }
 
+    public function getProjects()
+    {
+        $this->__load();
+        return parent::getProjects();
+    }
+
     public function getAnnouncements()
     {
         $this->__load();
@@ -102,6 +108,18 @@ class NewsroomEntityTagProxy extends \Newsroom\Entity\Tag implements \Doctrine\O
         return parent::__set($name, $value);
     }
 
+    public function __isset($name)
+    {
+        $this->__load();
+        return parent::__isset($name);
+    }
+
+    public function __unset($name)
+    {
+        $this->__load();
+        return parent::__unset($name);
+    }
+
     public function setFromArray(array $values)
     {
         $this->__load();
@@ -117,7 +135,7 @@ class NewsroomEntityTagProxy extends \Newsroom\Entity\Tag implements \Doctrine\O
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'news', 'events', 'announcements', 'materials');
+        return array('__isInitialized__', 'id', 'name', 'news', 'events', 'projects', 'announcements', 'materials');
     }
 
     public function __clone()

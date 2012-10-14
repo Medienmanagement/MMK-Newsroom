@@ -5,38 +5,30 @@
  * @license     please view LICENSE file
  */
 
-class Admin_YoutubeController
-    extends \Zend_Controller_Action
-    implements \Controller_Action_InterfaceForm, \Controller_Action_InterfaceRedirect
+class Admin_YoutubeController extends \Zend_Controller_Action
 {
     public function init()
     {
-    }
-
-    public function getForm()
-    {
+        $entityManager = $this->_helper->entityManager();
+        $repository = $entityManager->getRepository('\Newsroom\Entity\Youtube');
         $configForm = $this->getInvokeArg('bootstrap')->getResource('configForm');
 
-        return new \Zend_Form($configForm->youtubeApi);
-    }
-
-    public function getRedirect()
-    {
-        return '/admin/youtube';
-    }
-
-    public function getRepository()
-    {
-        return $this->_helper->entityManager()->getRepository('\Newsroom\Entity\Youtube');
+        $this->service = new \Controller_Service_SingleCrud(
+                $this,
+                $entityManager,
+                $repository,
+                new \Zend_Form($configForm->youtubeApi),
+                '/admin/youtube'
+        );
     }
 
     public function indexAction()
     {
-        \Controller_Action_Factory::get('singleEdit', $this)->execute();
+        $this->service->edit();
     }
 
     public function deleteAction()
     {
-        \Controller_Action_Factory::get('singleDelete', $this)->execute();
+        $this->service->delete();
     }
 }

@@ -1,0 +1,28 @@
+/*
+    Document   : ie7
+    Created on : 08.11.2011, 13:23:33
+    Author     : student
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/*
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root {
+    display: block;
+}
+section, article, nav, footer {
+    display: block;
+}
+nav ul {
+    display: inline;
+}
+nav li {
+    display: inline-block;
+}
+nav li {
+    display: inline;
+}
